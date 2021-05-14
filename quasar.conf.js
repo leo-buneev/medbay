@@ -6,6 +6,7 @@
 // Configuration for your app
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
+const path = require('path')
 const webpack = require('webpack')
 const { startDevServerExpress } = require('rads-server/dev')
 
@@ -68,11 +69,18 @@ module.exports = function(/* ctx */) {
           new webpack.ProvidePlugin({
             $: 'jquery',
             _: 'lodash',
-            gql: 'graphql-tag',
+            gql: ['graphql-tag', 'default'],
             createGuid: ['uuid', 'v4'],
             tc: ['rads', 'tools'],
           }),
         )
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          // Add your own alias like this
+          '@': path.resolve(__dirname, './src'),
+        }
+
         addSourceMaps(cfg)
       },
     },
@@ -107,7 +115,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Notify', 'Dialog'],
     },
 
     // animations: 'all', // --- includes all animations

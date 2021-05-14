@@ -1,0 +1,5 @@
+type TcAdviceDefinition {
+  name: String!
+  description: String!
+  condition: String
+}

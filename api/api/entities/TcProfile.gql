@@ -2,4 +2,21 @@ type TcProfile {
   name: String!
   email: String
   phoneNumber: String
+  sex: TcProfileSexEnum
+  height: Float
+  weight: Float
+  "Rodne cislo"
+  birthNumber: String
+  insurance: TcProfileInsurance! @default(value: "{}")
+}
+
+type TcProfileInsurance {
+  companyName: String
+  companyCode: Int
+  cardNumber: String
+}
+
+enum TcProfileSexEnum {
+  male
+  female
 }

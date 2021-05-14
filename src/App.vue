@@ -6,8 +6,5 @@
 <script>
 export default {
   name: 'App',
-  created() {
-    this.init()
-  },
 }
 </script>
