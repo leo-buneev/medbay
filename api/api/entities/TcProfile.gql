@@ -1,0 +1,11 @@
+type TcProfile {
+  name: String!
+  email: String
+  phoneNumber: String
+  sex: TcProfileSexEnum! @default(value: "male")
+}
+
+enum TcProfileSexEnum {
+  male
+  female
+}
