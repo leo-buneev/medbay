@@ -9,10 +9,5 @@ export default {
   created() {
     this.init()
   },
-  safeMethods: {
-    async init() {
-      await tc.delay(5000)
-    }
-  }
 }
 </script>

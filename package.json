@@ -8,13 +8,15 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev"
+    "dev": "quasar dev",
+    "dev-api": "nodemon -q --inspect -r esm ./api/dev.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "rads": "^0.3.7"
+    "rads": "^0.3.7",
+    "rads-server": "^0.3.7"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

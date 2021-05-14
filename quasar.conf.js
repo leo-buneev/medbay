@@ -7,6 +7,7 @@
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 const webpack = require('webpack')
+const { startDevServerExpress } = require('rads-server/dev')
 
 module.exports = function(/* ctx */) {
   return {
@@ -28,7 +29,7 @@ module.exports = function(/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -81,6 +82,9 @@ module.exports = function(/* ctx */) {
       https: false,
       port: 1487,
       open: true, // opens browser window automatically
+      before: function(app, server, compiler) {
+        startDevServerExpress({ app, server, compiler })
+      },
     },
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

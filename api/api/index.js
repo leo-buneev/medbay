@@ -15,7 +15,7 @@ JSON.parseSafe = function(arg1, ...args) {
 
 export default createServerlessHandler({
   entities,
-  // features,
+  // features: [],
   cosmosDb: getCosmosDbOptions(),
 })
 

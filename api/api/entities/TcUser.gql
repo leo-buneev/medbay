@@ -1,0 +1,4 @@
+type TcUser {
+  email: String!
+  name: String
+}
