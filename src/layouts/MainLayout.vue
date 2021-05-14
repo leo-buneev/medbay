@@ -20,16 +20,14 @@
     </QDrawer>
 
     <QPageContainer>
-      <QTabPanels v-model="tab" animated>
-        <QTabPanel name="advices"><AdvicePage /></QTabPanel>
-        <QTabPanel name="profile">Profil</QTabPanel>
-        <QTabPanel name="history">Archiv</QTabPanel>
-      </QTabPanels>
+      <Transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+        <!-- <router-view  :key="$route.name" /> -->
+        <RouterView :key="$route.path" />
+      </Transition>
     </QPageContainer>
 
     <QFooter>
       <QTabs
-        v-model="tab"
         class="main-layout__tabs text-grey-5"
         no-caps
         indicator-color="transparent"
@@ -37,23 +35,66 @@
         align="center"
         shrink
       >
-        <QTab icon="fas fa-exclamation" name="advices">Doporučení</QTab>
-        <QTab icon="fas fa-id-card" name="profile">Profil</QTab>
-        <QTab icon="fas fa-history" name="history">Archiv</QTab>
+        <QTab icon="fas fa-exclamation" @click="() => $router.push('advices')">Doporučení</QTab>
+        <QTab icon="fas fa-id-card" @click="() => $router.push('profile')">Profil</QTab>
+        <QTab icon="fas fa-history" @click="() => $router.push('history')">Archiv</QTab>
       </QTabs>
     </QFooter>
   </QLayout>
 </template>
 
 <script>
-import AdvicePage from '@/pages/AdvicePage.vue'
+// import EssentialLink from 'components/EssentialLink.vue'
+
+// const linksData = [
+//   {
+//     title: 'Docs',
+//     caption: 'quasar.dev',
+//     icon: 'school',
+//     link: 'https://quasar.dev',
+//   },
+//   {
+//     title: 'Github',
+//     caption: 'github.com/quasarframework',
+//     icon: 'code',
+//     link: 'https://github.com/quasarframework',
+//   },
+//   {
+//     title: 'Discord Chat Channel',
+//     caption: 'chat.quasar.dev',
+//     icon: 'chat',
+//     link: 'https://chat.quasar.dev',
+//   },
+//   {
+//     title: 'Forum',
+//     caption: 'forum.quasar.dev',
+//     icon: 'record_voice_over',
+//     link: 'https://forum.quasar.dev',
+//   },
+//   {
+//     title: 'Twitter',
+//     caption: '@quasarframework',
+//     icon: 'rss_feed',
+//     link: 'https://twitter.quasar.dev',
+//   },
+//   {
+//     title: 'Facebook',
+//     caption: '@QuasarFramework',
+//     icon: 'public',
+//     link: 'https://facebook.quasar.dev',
+//   },
+//   {
+//     title: 'Quasar Awesome',
+//     caption: 'Community Quasar projects',
+//     icon: 'favorite',
+//     link: 'https://awesome.quasar.dev',
+//   },
+// ]
 
 export default {
   name: 'MainLayout',
-  components: { AdvicePage },
   data() {
     return {
-      tab: 'advices',
       leftDrawerOpen: false,
     }
   },
