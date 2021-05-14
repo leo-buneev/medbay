@@ -1,24 +1,16 @@
 <template>
-  <q-item
-    clickable
-    tag="a"
-    target="_blank"
-    :href="link"
-  >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
-      <q-icon :name="icon" />
-    </q-item-section>
+  <QItem clickable tag="a" target="_blank" :href="link">
+    <QItemSection v-if="icon" avatar>
+      <QIcon :name="icon" />
+    </QItemSection>
 
-    <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
-      <q-item-label caption>
+    <QItemSection>
+      <QItemLabel>{{ title }}</QItemLabel>
+      <QItemLabel caption>
         {{ caption }}
-      </q-item-label>
-    </q-item-section>
-  </q-item>
+      </QItemLabel>
+    </QItemSection>
+  </QItem>
 </template>
 
 <script>
@@ -27,23 +19,23 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
 
     caption: {
       type: String,
-      default: ''
+      default: '',
     },
 
     link: {
       type: String,
-      default: '#'
+      default: '#',
     },
 
     icon: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
