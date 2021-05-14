@@ -6,6 +6,7 @@
 // Configuration for your app
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
+const webpack = require('webpack')
 
 module.exports = function(/* ctx */) {
   return {
@@ -18,7 +19,7 @@ module.exports = function(/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v1.quasar.dev/quasar-cli/boot-files
-    boot: [],
+    boot: ['rads'],
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ['app.scss'],
@@ -41,12 +42,12 @@ module.exports = function(/* ctx */) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
-      // transpile: false,
+      // transpile: true,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
       // Applies only if "transpile" is set to true.
-      // transpileDependencies: [],
+      transpileDependencies: ['rads'],
 
       // rtl: false, // https://v1.quasar.dev/options/rtl-support
       // preloadChunks: true,
@@ -59,7 +60,19 @@ module.exports = function(/* ctx */) {
 
       // https://v1.quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack(chain) {
+      chainWebpack(chain) {},
+      extendWebpack(cfg) {
+        cfg.devtool = 'source-map'
+        cfg.plugins.push(
+          new webpack.ProvidePlugin({
+            $: 'jquery',
+            _: 'lodash',
+            gql: 'graphql-tag',
+            createGuid: ['uuid', 'v4'],
+            tc: ['rads', 'tools'],
+          }),
+        )
+        addSourceMaps(cfg)
       },
     },
 
@@ -184,4 +197,52 @@ module.exports = function(/* ctx */) {
       },
     },
   }
+}
+
+function addSourceMaps(config) {
+  // eval-source-map is slightly worse but speeds up hot reload
+  config.devtool = process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-source-map'
+  if (config.devtool === 'eval-source-map') {
+    const CustomModuleIdsPlugin = require('custom-module-ids-webpack-plugin')
+    config.plugins.push(
+      new CustomModuleIdsPlugin({
+        idFunction: function(libIdent, module) {
+          if (libIdent.includes('!')) {
+            // because of loader syntax full path looks like "../node_modules/loader.js!./src/Page.vue"
+            // Presense of "node_modules" makes vscode-chrome-debugger think that its a part of node_modules.
+            // We fix it by replacing all instances of "node_modules" in the path with different string.
+            libIdent = libIdent.replace(/node_modules/gi, 'node-modules')
+          }
+          // Converts paths of type "file.vue?param=value" to "file.vue_param=value"
+          // It is needed because when we have both "file.vue" and "file.vue?param=value",
+          // vscode-chrome-debugger considers them the same file and gets very confused.
+          return libIdent.replace(/[?&]/gi, '_')
+        },
+      }),
+    )
+  }
+  config.output = config.output || {}
+  config.output.devtoolModuleFilenameTemplate = info => {
+    // Vue compilation process generates very chaotic file paths, so we attempt normalize them
+
+    const normalizedResourcePath = info.resourcePath
+      .replace(/^\//, '') // /some/path => some/path
+      .replace(/^\.\//, '') // ./some/path => some/path
+      .replace(/.*node_modules/, '../../node_modules') // /long/path/to/node_modules/pkg1 => ../../node_modules/pkg1
+
+    if (
+      normalizedResourcePath.includes('(webpack)') ||
+      ['webpack/bootstrap', 'util', 'util (ignored)'].includes(normalizedResourcePath)
+    ) {
+      // Internal webpack dev server code
+      return 'webpack-utils:///' + normalizedResourcePath
+    }
+    if (normalizedResourcePath.match(/\.vue$/) && info.allLoaders) {
+      // Vue single file components compilation artifacts
+      return 'webpack-generated:///' + normalizedResourcePath + '?' + info.hash
+    }
+    // Finally real source files that we need
+    return 'sources:///' + normalizedResourcePath
+  }
+  config.output.devtoolFallbackModuleFilenameTemplate = 'webpack-generated-fallback:///[resource-path]?[hash]'
 }

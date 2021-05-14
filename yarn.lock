@@ -3731,10 +3731,22 @@ csso@^4.0.2:
   dependencies:
     css-tree "^1.1.2"
 
+custom-module-ids-webpack-plugin@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/custom-module-ids-webpack-plugin/-/custom-module-ids-webpack-plugin-1.1.0.tgz#895eec7ca145a58b5f3e52b1c711586172328b07"
+  integrity sha1-iV7sfKFFpYtfPlKxxxFYYXIyiwc=
+  dependencies:
+    schema-utils "^0.4.5"
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
+
+dataloader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-2.0.0.tgz#41eaf123db115987e21ca93c005cd7753c55fe6f"
+  integrity sha512-YzhyDAwA4TaQIhM5go+vCLmU0UikghC/t9DTQYZR2M/UvZ1MdOhPezSDZcjj9uqQJOMqjLcpWtyW2iNINdlatQ==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -3895,6 +3907,11 @@ detect-node@^2.0.4:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.5.tgz#9d270aa7eaa5af0b72c4c9d9b814e7f4ce738b79"
   integrity sha512-qi86tE6hRcFHy8jI1m2VG+LaPUR1LhqDa5G8tVjuUXmOrpuAgqsA1pN0+ldgr3aKUH+QLI9hCY/OcRYisERejw==
+
+dexie@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.3.tgz#ede63849dfe5f07e13e99bb72a040e8ac1d29dab"
+  integrity sha512-BSFhGpngnCl1DOr+8YNwBDobRMH0ziJs2vts69VilwetHYOtEDcLqo7d/XiIphM0tJZ2rPPyAGd31lgH2Ln3nw==
 
 dicer@0.3.0:
   version "0.3.0"
@@ -7747,6 +7764,11 @@ plur@^3.0.0:
   dependencies:
     irregular-plurals "^2.0.0"
 
+pluralize@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
+  integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
+
 portfinder@^1.0.26:
   version "1.0.28"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.28.tgz#67c4622852bd5374dd1dd900f779f53462fac778"
@@ -8314,16 +8336,18 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-rads@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.6.tgz#fcf5334310bef41706e56304db6f48371bd08ac3"
-  integrity sha512-j4nhUPVYVs2jUfioZ6p24Kl4Snuyo7DfEfs7NEpXBJI54TkQpkAhI/ipjX5nPGET2ie8kOMF3oUiclmxUFjbYQ==
+rads@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.7.tgz#aaaa51a4d0972fed3522b0576335224f1e70f251"
+  integrity sha512-zMSQXb1bwFIXL+P6RzHgfWjIfjCzo/poVsCdJCBiWuTGXEPy0SIYA36ZdlmgtmVd20pw89j1wv4DoJSrBtsaDw==
   dependencies:
     "@apollo/client" "^3.3.9"
     "@azure/storage-blob" "^12.4.1"
     apollo-server-azure-functions "^2.21.0"
     b64-to-blob "^1.2.19"
     cors "^2.8.5"
+    dataloader "^2.0.0"
+    dexie "^3.0.3"
     esm "^3.2.25"
     express "^4.17.1"
     graphql "^15.5.0"
@@ -8332,8 +8356,10 @@ rads@^0.3.6:
     mime "^2.5.0"
     module-alias "^2.2.2"
     node-fetch "^2.6.1"
+    pluralize "^8.0.0"
     transliteration "^2.2.0"
     uuid "^8.3.2"
+    vuelidate "^0.7.6"
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
@@ -9323,6 +9349,14 @@ sax@>=0.6.0, sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+
+schema-utils@^0.4.5:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
+  integrity sha512-v/iwU6wvwGK8HbU9yi3/nhGzP0yGSuhQMzL6ySiec1FSrZZDkhm4noOSWzrNFo/jEc+SJY6jRTwuwbSXJPDUnQ==
+  dependencies:
+    ajv "^6.1.0"
+    ajv-keywords "^3.1.0"
 
 schema-utils@^1.0.0:
   version "1.0.0"
@@ -10847,6 +10881,11 @@ vue@2.6.12:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
+
+vuelidate@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.6.tgz#84100c13b943470660d0416642845cd2a1edf4b2"
+  integrity sha512-suzIuet1jGcyZ4oUSW8J27R2tNrJ9cIfklAh63EbAkFjE380iv97BAiIeolRYoB9bF9usBXCu4BxftWN1Dkn3g==
 
 vuex@3.6.0:
   version "3.6.0"

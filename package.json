@@ -14,17 +14,18 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "rads": "^0.3.6"
+    "rads": "^0.3.7"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
     "babel-eslint": "^10.0.1",
+    "custom-module-ids-webpack-plugin": "^1.1.0",
     "eslint": "^7.21.0",
-    "eslint-plugin-tyrecheck": "^2.24.0",
     "eslint-plugin-import": "^2.23.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-tyrecheck": "^2.24.0",
     "eslint-plugin-vue": "^7.9.0"
   },
   "browserslist": [
