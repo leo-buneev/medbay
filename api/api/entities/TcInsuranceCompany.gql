@@ -12,6 +12,7 @@ type TcInsuranceCompanyBenefit {
   "How many days must pass between applications of benefit - i.e. between visits to doctor. 365 for 1 year."
   minIntervalDays: Int
   type: TcInsuranceCompanyBenefitTypeEnum
+  tcVaccinatedDisease: TcVaccinatedDisease @relation
   url: String
   condition: TcInsuranceCompanyBenefitCondition! @default(value: "{}")
 }

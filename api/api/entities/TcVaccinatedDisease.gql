@@ -1,0 +1,16 @@
+type TcVaccinatedDisease @meta(nameField: "disease"){
+  disease: String!
+  mandatory: Boolean @default(value: "false")
+  vaccines: [TcVaccine!]! @default(value: "[]")
+}
+
+type TcVaccine {
+  name: String
+  doseCount: Int
+  doseInterval: [TcDoseInterval!]! @default(value: "[]")
+}
+
+type TcDoseInterval {
+  afterDose: Int
+  intervalDays: Int
+}
