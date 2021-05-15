@@ -45,7 +45,7 @@
         <QBtn color="primary" label="Přidat" class="q-ma-md" @click="complete" />
       </div>
     </div>
-    <QTable title="Očkování" :data="data" :columns="columns" row-key="name">
+    <QTable title="Očkování" :data="data" :columns="columns" row-key="name" title-class="text-primary">
       <template #body="props">
         <QTr :props="props" :class="{ 'no-apply': props.row.mandatory === true && props.row.date == null }">
           <QTd key="mandatory" :props="props">
@@ -95,14 +95,14 @@ export default {
   data() {
     return {
       columns: [
-        { name: 'mandatory', label: 'povinná', field: 'mandatory' },
-        { name: 'date', label: 'datum', field: 'date' },
-        { name: 'disease', label: 'onemocnění', field: 'disease' },
-        { name: 'vaccinationName', label: 'vakcína', field: 'vaccinationName' },
-        { name: 'serialNumber', label: 'sériové číslo', field: 'serialNumber' },
-        { name: 'dose', label: 'dávka', field: 'dose' },
-        { name: 'receipt', label: 'účtenka', field: 'receipt' },
-        { name: 'nextDate', label: 'příští aplikace', field: 'nextDate' },
+        { name: 'mandatory', label: 'povinná', field: 'mandatory', align: 'center' },
+        { name: 'date', label: 'datum', field: 'date', align: 'left' },
+        { name: 'disease', label: 'onemocnění', field: 'disease', align: 'left' },
+        { name: 'vaccinationName', label: 'vakcína', field: 'vaccinationName', align: 'left' },
+        { name: 'serialNumber', label: 'sériové číslo', field: 'serialNumber', align: 'left' },
+        { name: 'dose', label: 'dávka', field: 'dose', align: 'right' },
+        { name: 'receipt', label: 'účtenka', field: 'receipt', align: 'center' },
+        { name: 'nextDate', label: 'příští aplikace', field: 'nextDate', align: 'right' },
       ],
       mandatoryVaccination: [],
       vaccination: [],
@@ -244,7 +244,7 @@ export default {
 
   & > td span {
     background-color: $negative;
-    padding: ($space-x-base * 0.25);
+    padding: ($space-x-base * 0.25) ($space-x-base * 0.5);
     color: #fff;
   }
 
