@@ -1,0 +1,19 @@
+type TcVaccinatedDisease @meta(nameField: "disease"){
+  disease: String!
+  vaccines: [TcVaccine!]! @default(value: "[]")
+}
+
+type TcVaccine {
+  name: String
+  doseCount: Int
+}
+
+enum TcDoseEnum {
+  first
+  second
+  third
+  fourth
+  fifth
+  sixth
+  repeat
+}

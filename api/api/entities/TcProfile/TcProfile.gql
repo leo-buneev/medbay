@@ -27,6 +27,8 @@ type TcProfile {
 type TcProfileUsedBenefit {
   name: String!
   date: DateTime!
+  serialNumber: String
+  receipt: ImageUrl
 }
 
 type TcProfileDiscardedBenefit {
