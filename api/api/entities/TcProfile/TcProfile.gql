@@ -16,6 +16,18 @@ type TcProfile {
   birthNumber: String
   "Information about insurance"
   tcInsuranceCompany: TcInsuranceCompany @relation
+  usedBenefits: [TcProfileUsedBenefit!]! @default(value: "[]")
+  discardedBenefits: [TcProfileDiscardedBenefit!]! @default(value: "[]")
+}
+
+type TcProfileUsedBenefit {
+  name: String!
+  date: DateTime!
+}
+
+type TcProfileDiscardedBenefit {
+  name: String!
+  date: DateTime!
 }
 
 enum TcProfileSexEnum {

@@ -3,6 +3,7 @@ import api from '@/services/api'
 const profileQuery = gql`
   query {
     tcProfile(where: { id: "2b394cf6-f589-46bb-993b-efbec6ef069a" }) {
+      id
       name
       email
       phoneNumber
@@ -12,7 +13,15 @@ const profileQuery = gql`
       weight
       birthNumber
       birthDate
+      usedBenefits {
+        name
+        date
+      }
+      discardedBenefits {
+        name
+      }
       tcInsuranceCompany {
+        id
         name
         code
         benefits {
@@ -31,7 +40,7 @@ const profileQuery = gql`
   }
 `
 const upsertProfileMutation = gql`
-  mutation($data: TcProfile) {
+  mutation($data: TcProfileInput!) {
     upsertTcProfile(data: $data)
   }
 `

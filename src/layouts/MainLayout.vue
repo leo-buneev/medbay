@@ -21,7 +21,7 @@
 
     <QPageContainer>
       <QTabPanels v-model="tab" animated swipeable>
-        <QTabPanel name="advice"><Advices /></QTabPanel>
+        <QTabPanel name="advice" class="q-px-none"><Advices /></QTabPanel>
         <QTabPanel name="vaccination"><Vaccination /></QTabPanel>
         <QTabPanel name="profile"><Profile /></QTabPanel>
       </QTabPanels>
