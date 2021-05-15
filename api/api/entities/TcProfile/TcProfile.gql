@@ -15,7 +15,7 @@ type TcProfile {
   "Rodne cislo"
   birthNumber: String
   "Information about insurance"
-  tcInsuranceCompany: TcInsuranceCompany! @relation
+  tcInsuranceCompany: TcInsuranceCompany @relation
 }
 
 enum TcProfileSexEnum {
