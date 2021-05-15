@@ -33,8 +33,8 @@
       class="q-mx-md q-mt-md"
     />
     <RInput v-model="tcProfile.email" outlined label="Email" class="q-mx-md q-mt-md" />
-    <RInput value="" outlined type="password" label="Heslo" class="q-mx-md q-mt-md" />
-    <RInput value="" outlined type="password" label="Opakovat heslo" class="q-mx-md q-mt-md" />
+    <!-- <RInput value="" outlined type="password" label="Heslo" class="q-mx-md q-mt-md" />
+    <RInput value="" outlined type="password" label="Opakovat heslo" class="q-mx-md q-mt-md" /> -->
     <h6 class="q-mx-md q-mt-lg q-mb-none text-primary">Karta pojištěnce</h6>
     <RInput
       v-model="tcProfile.birthNumber"
