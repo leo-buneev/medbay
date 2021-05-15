@@ -1,8 +1,8 @@
 <template>
   <QPage class="flex flex-top column">
     <QBtn label="Naskenovat kartu pojistence" no-caps color="primary" class="q-mx-md" @click="scanId" />
-    <QInput v-model="firstName" outlined label="Jméno" class="q-mx-md q-mt-md" />
-    <QInput v-model="lastName" outlined label="Příjmení" class="q-mx-md q-mt-md" />
+    <RInput v-model="firstName" outlined label="Jméno" class="q-mx-md q-mt-md" />
+    <RInput v-model="lastName" outlined label="Příjmení" class="q-mx-md q-mt-md" />
     <QSelect
       v-model="tcProfile.sex"
       emit-value
@@ -32,12 +32,18 @@
       label="Pojištovna"
       class="q-mx-md q-mt-md"
     />
-    <QInput v-model="tcProfile.email" outlined label="Email" class="q-mx-md q-mt-md" />
-    <QInput value="" outlined type="password" label="Heslo" class="q-mx-md q-mt-md" />
-    <QInput value="" outlined type="password" label="Opakovat heslo" class="q-mx-md q-mt-md" />
+    <RInput v-model="tcProfile.email" outlined label="Email" class="q-mx-md q-mt-md" />
+    <RInput value="" outlined type="password" label="Heslo" class="q-mx-md q-mt-md" />
+    <RInput value="" outlined type="password" label="Opakovat heslo" class="q-mx-md q-mt-md" />
     <h6 class="q-mx-md q-mt-lg q-mb-none text-primary">Karta pojištěnce</h6>
-    <QInput v-model="tcProfile.birthNumber" outlined label="Rodné číslo" class="q-mx-md q-mt-md" />
-    <QInput v-model="tcProfile.insuranceDocumentNumber" outlined label="Číslo průkazu" class="q-mx-md q-mt-md" />
+    <RInput
+      v-model="tcProfile.birthNumber"
+      :vuelidate="$v.tcProfile.birthNumber"
+      outlined
+      label="Rodné číslo"
+      class="q-mx-md q-mt-md"
+    />
+    <RInput v-model="tcProfile.insuranceDocumentNumber" outlined label="Číslo průkazu" class="q-mx-md q-mt-md" />
     <RDatetime v-model="tcProfile.insuranceExpiration" outlined label="Platnost do" class="q-mx-md q-mt-md" />
     <!-- <h6 class="q-mx-md q-mt-lg q-mb-none text-primary">Doplňující údaje</h6> -->
     <QBtn color="primary" label="Uložit" class="q-ma-md" @click="save" />
@@ -46,16 +52,19 @@
 
 <script>
 import api from '@/services/api'
-import camera from '@/services/camera'
-import { ComputerVisionClient } from '@azure/cognitiveservices-computervision'
-import { ApiKeyCredentials } from '@azure/ms-rest-js'
-import azureStorage from '@/services/azureStorage'
-import b64toBlob from 'b64-to-blob'
+import { validations } from 'rads'
+
+const { required } = validations
 
 export default {
-  validations: {},
+  validations: {
+    tcProfile: {
+      birthNumber: { required },
+    },
+  },
 
   data() {
+    console.log(required)
     const profile = this.$store.state.user.tcProfile
 
     let lastName = profile.name.split(' ')

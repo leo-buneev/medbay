@@ -25,6 +25,7 @@ type TcProfile {
 }
 
 type TcProfileUsedBenefit {
+  type: TcInsuranceCompanyBenefitTypeEnum
   name: String!
   date: DateTime!
   serialNumber: String

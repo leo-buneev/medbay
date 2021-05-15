@@ -16,6 +16,7 @@ const profileQuery = gql`
       insuranceDocumentNumber
       insuranceExpiration
       usedBenefits {
+        type
         name
         date
       }

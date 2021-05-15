@@ -139,7 +139,10 @@ export default {
       const { tcProfile } = this.$store.state.user
       await this.$store.dispatch('upsertTcProfile', {
         ...tcProfile,
-        usedBenefits: [...tcProfile.usedBenefits, { name: benefit.name, date: new Date().toISOString() }],
+        usedBenefits: [
+          ...tcProfile.usedBenefits,
+          { name: benefit.name, date: new Date().toISOString(), type: benefit.type },
+        ],
       })
     },
     async discard(benefit) {
