@@ -1,6 +1,6 @@
 <template>
   <QPage class="flex flex-top column">
-    <QBtn label="Naskenovat kartu pojistence" no-caps color="primary" class="q-mx-md" @click="scanId" />
+    <QBtn label="Naskenovat kartu pojištěnce" no-caps color="primary" class="q-mx-md" @click="scanId" />
     <RInput v-model="firstName" outlined label="Jméno" class="q-mx-md q-mt-md" />
     <RInput v-model="lastName" outlined label="Příjmení" class="q-mx-md q-mt-md" />
     <QSelect
@@ -153,7 +153,7 @@ export default {
       console.log('Detection result', result)
 
       if (_.keys(result).length < _.keys(regularExpressions).length - 1) {
-        throw new tc.SafeError('Skenovani karticky se nepovedlo. Prosime, zkuste znovu.')
+        throw new tc.SafeError('Skenování kartičky se nepovedlo. Prosíme, zkuste to znovu.')
       } else {
         this.firstName = result.firstName
         this.lastName = result.lastName
@@ -166,7 +166,7 @@ export default {
         )?.value
         notify.create({
           type: 'positive',
-          message: 'Karta pojisteni byla uspesne naskenovana. Udaje dole byli vyplnene automaticky.',
+          message: 'Karta pojištění byla úspěšně naskenovaná. Vaše údaje byli vyplněny automaticky.',
         })
       }
     },
