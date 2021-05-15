@@ -6,6 +6,7 @@ const profileQuery = gql`
       name
       email
       phoneNumber
+      birthDate
       sex
       height
       weight

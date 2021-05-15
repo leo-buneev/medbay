@@ -20,14 +20,21 @@
     </QDrawer>
 
     <QPageContainer>
+      <QTabPanels v-model="tab" animated swipeable>
+        <QTabPanel name="advice"><Advices /></QTabPanel>
+        <QTabPanel name="vaccination"><Vaccination /></QTabPanel>
+        <QTabPanel name="profile"><Profile /></QTabPanel>
+      </QTabPanels>
+    </QPageContainer>
+    <!-- <QPageContainer>
       <Transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-        <!-- <router-view  :key="$route.name" /> -->
         <RouterView :key="$route.path" />
       </Transition>
-    </QPageContainer>
+    </QPageContainer> -->
 
     <QFooter>
       <QTabs
+        v-model="tab"
         class="main-layout__tabs text-grey-5"
         no-caps
         indicator-color="transparent"
@@ -35,16 +42,18 @@
         align="center"
         shrink
       >
-        <QTab icon="fas fa-exclamation" @click="() => $router.push('advices')">Doporučení</QTab>
-        <QTab icon="fas fa-syringe" @click="() => $router.push('vaccination')">Očkování</QTab>
-        <QTab icon="fas fa-id-card" @click="() => $router.push('profile')">Profil</QTab>
+        <QTab icon="fas fa-exclamation" name="advice">Doporučení</QTab>
+        <QTab icon="fas fa-syringe" name="vaccination">Očkování</QTab>
+        <QTab icon="fas fa-id-card" name="profile">Profil</QTab>
       </QTabs>
     </QFooter>
   </QLayout>
 </template>
 
 <script>
-// import EssentialLink from 'components/EssentialLink.vue'
+import Advices from '@/pages/Advices.vue'
+import Profile from '@/pages/Profile.vue'
+import Vaccination from '@/pages/Vaccination.vue'
 
 // const linksData = [
 //   {
@@ -93,8 +102,10 @@
 
 export default {
   name: 'MainLayout',
+  components: { Profile, Advices, Vaccination },
   data() {
     return {
+      tab: 'advice',
       leftDrawerOpen: false,
     }
   },
@@ -112,7 +123,7 @@ export default {
 <style lang="scss">
 .main-layout__tabs {
   .q-tab {
-    width: 33%;
+    width: 50%;
   }
 }
 </style>
