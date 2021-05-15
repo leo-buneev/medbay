@@ -1,28 +1,25 @@
 <template>
   <QCard style="min-width: 300px;">
-    <QCardSection>
-      <QSelect v-model="vaccine" :options="vaccineOptions" label="Vyberte vyrobce vasi vakciny" />
-    </QCardSection>
-    <QCardActions class="text-right"><QBtn flat label="Ulozit" @click="save" /></QCardActions>
+    <VaccinationCreate :vaccinated-disease-id="vaccinatedDiseaseId" grid="col-xs-12" @save="save" />
   </QCard>
 </template>
 
 <script>
+import VaccinationCreate from '@/components/VaccinationCreate.vue'
+
 export default {
+  components: { VaccinationCreate },
+
   props: ['benefit'],
-  data() {
-    return {
-      vaccine: null,
-    }
-  },
+
   computed: {
-    vaccineOptions() {
-      return this.benefit.tcVaccinatedDisease.vaccines.map(v => v.name).map(x => ({ label: x, value: x }))
+    vaccinatedDiseaseId() {
+      return this.benefit.tcVaccinatedDisease.id
     },
   },
+
   methods: {
     save() {
-      this.$emit('input', this.vaccine?.value)
       this.$hideTopDialog()
     },
   },

@@ -201,31 +201,22 @@ export default {
     async complete(benefit) {
       const { tcProfile } = this.$store.state.user
 
-      let newBenefit = { name: benefit.name, date: new Date().toISOString(), type: benefit.type }
       if (benefit.tcVaccinatedDisease?.id != null) {
-        let vaccinationName = null
         if (benefit.tcVaccinatedDisease.vaccines?.length) {
           await dialog.showComponentDialog({
             component: AdvicesCompleteDialog,
             props: { benefit },
-            listeners: {
-              input: v => {
-                vaccinationName = v
-              },
-            },
           })
         }
-        newBenefit = {
-          ...newBenefit,
-          tcVaccinatedDisease: { id: benefit.tcVaccinatedDisease.id },
-          vaccinationName,
-        }
+      } else {
+        await this.$store.dispatch('upsertTcProfile', {
+          ...tcProfile,
+          usedBenefits: [
+            ...tcProfile.usedBenefits,
+            { name: benefit.name, date: new Date().toISOString(), type: benefit.type },
+          ],
+        })
       }
-
-      await this.$store.dispatch('upsertTcProfile', {
-        ...tcProfile,
-        usedBenefits: [...tcProfile.usedBenefits, newBenefit],
-      })
     },
     async discard(benefit) {
       const { tcProfile } = this.$store.state.user

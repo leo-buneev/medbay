@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-4">
+    <div :class="colClass">
       <QSelect
         v-model="diseaseId"
         emit-value
@@ -12,11 +12,12 @@
         "
         outlined
         :options="diseaseOptions"
+        :disable="vaccinatedDiseaseId != null"
         label="Onemocnění"
         class="q-mx-md q-mt-md"
       />
     </div>
-    <div class="col-4">
+    <div :class="colClass">
       <QSelect
         v-model="vaccinationName"
         outlined
@@ -25,7 +26,7 @@
         class="q-mx-md q-mt-md"
       />
     </div>
-    <div class="col-4">
+    <div :class="colClass">
       <QSelect
         v-model="vaccinationDose"
         outlined
@@ -34,10 +35,10 @@
         class="q-mx-md q-mt-md"
       />
     </div>
-    <div class="col-4">
+    <div :class="colClass">
       <RInput v-model="serialNumber" outlined label="Sériové číslo" class="q-mx-md q-mt-md" />
     </div>
-    <div class="col-4">
+    <div :class="colClass">
       <RDatetime v-model="date" outlined label="Datum aplikace" class="q-mx-md q-mt-md" />
     </div>
     <div class="col-12 text-right">
@@ -50,6 +51,8 @@
 import api from '@/services/api'
 
 export default {
+  props: ['vaccinatedDiseaseId', 'grid'],
+
   data() {
     return {
       vaccination: [],
@@ -80,6 +83,10 @@ export default {
 
       return (doses != null && new Array(doses).fill(null).map((item, index) => index + 1)) || null
     },
+
+    colClass() {
+      return this.grid || 'col-xs-12 col-md-4'
+    },
   },
 
   watch: {
@@ -90,6 +97,10 @@ export default {
 
     vaccinationName() {
       this.vaccinationDose = null
+    },
+
+    vaccinatedDiseaseId(value) {
+      if (value != null) this.diseaseId = value
     },
   },
 
@@ -122,6 +133,8 @@ export default {
       })
 
       this.vaccination = tcVaccinatedDiseases.nodes || []
+
+      if (this.vaccinatedDiseaseId != null) this.diseaseId = this.vaccinatedDiseaseId
     },
 
     async complete(benefit) {
@@ -144,6 +157,8 @@ export default {
           },
         ],
       })
+
+      this.$emit('save')
     },
   },
 }
