@@ -1,6 +1,6 @@
 <template>
   <QList>
-    <QItem v-for="b of advices" :key="b.name">
+    <QItem v-for="b of notifications" :key="b.name">
       <QItemSection side class="q-pl-sm">
         <QIcon :name="getIcon(b)" />
       </QItemSection>
@@ -8,8 +8,11 @@
         <QItemLabel>
           {{ b.name }}
         </QItemLabel>
-        <QItemLabel caption :class="getPriceClass(b)">
+        <QItemLabel v-if="b.type !== 'info'" caption :class="getPriceClass(b)">
           {{ getPrice(b) }}
+        </QItemLabel>
+        <QItemLabel v-else caption>
+          {{ b.nextDate }}
         </QItemLabel>
       </QItemSection>
       <QItemSection side>
@@ -26,7 +29,7 @@
         </div>
       </QItemSection>
     </QItem>
-    <h6>Uplatnene nabidky</h6>
+    <h6>Uplatněné nabídky</h6>
     <QItem v-for="b of usedAdvices" :key="b.name">
       <QItemSection side class="q-pl-sm">
         <QIcon :name="getIcon(b)" />
@@ -40,7 +43,7 @@
         </QItemLabel>
       </QItemSection>
     </QItem>
-    <h6>Odmintune nabidky</h6>
+    <h6>Odmítnuté nabídky</h6>
     <QItem v-for="b of discardedAdvices" :key="b.name">
       <QItemSection side class="q-pl-sm">
         <QIcon :name="getIcon(b)" />
@@ -59,7 +62,16 @@
 
 <script>
 import moment from 'moment'
+import api from '@/services/api'
+import utils from '@/services/utils'
+
 export default {
+  data() {
+    return {
+      vaccinations: [],
+    }
+  },
+
   computed: {
     usedAdvices() {
       const { tcProfile } = this.$store.state.user
@@ -95,7 +107,33 @@ export default {
         return true
       })
     },
+    userVaccinations() {
+      return (this.$store.state.user.tcProfile.usedBenefits || [])
+        .filter(item => item.type === 'vaccination')
+        .map(item => {
+          const intervalDays = utils.getIntervalDays(item, this.vaccinations)
+
+          return {
+            type: 'info',
+            name: utils.getDisease(item, this.vaccinations),
+            ...(intervalDays > 0 && {
+              nextDate: moment(item.date)
+                .add(intervalDays, 'days')
+                .format('L'),
+            }),
+          }
+        })
+        .filter(item => item.nextDate != null)
+    },
+    notifications() {
+      return [...this.advices, ...this.userVaccinations]
+    },
   },
+
+  created() {
+    this.init()
+  },
+
   methods: {
     getIcon(benefit) {
       const icons = {
@@ -103,17 +141,9 @@ export default {
         vaccination: 'fas fa-syringe',
         practitionerCheckup: 'fas fa-user-md',
         dentistCheckup: 'fas fa-tooth',
+        info: 'fas fa-info-circle',
       }
       return icons[benefit.type] || icons['default']
-    },
-    getColor(benefit) {
-      const colors = {
-        default: 'fas fa-briefcase-medical',
-        vaccination: 'fas fa-syringe',
-        practitionerCheckup: 'fas fa-user-md',
-        dentistCheckup: 'fas fa-tooth',
-      }
-      return colors[benefit.type] || colors['default']
     },
     getPrice(benefit) {
       const { subsidy } = benefit
@@ -155,6 +185,33 @@ export default {
         ...tcProfile,
         discardedBenefits: [...tcProfile.discardedBenefits, { name: benefit.name }],
       })
+    },
+
+    async init() {
+      console.log('this')
+      const { tcVaccinatedDiseases } = await api.query({
+        query: gql`
+          query {
+            tcVaccinatedDiseases {
+              nodes {
+                id
+                disease
+                mandatory
+                vaccines {
+                  name
+                  doseCount
+                  doseInterval {
+                    afterDose
+                    intervalDays
+                  }
+                }
+              }
+            }
+          }
+        `,
+      })
+
+      this.vaccinations = tcVaccinatedDiseases.nodes || []
     },
   },
 }

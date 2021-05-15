@@ -1,44 +1,55 @@
 <template>
   <QPage class="flex flex-top column">
     <VaccinationCreate />
-    <QTable title="Očkování" :data="data" :columns="columns" row-key="name" title-class="text-primary">
-      <template #body="props">
-        <QTr :props="props" :class="{ 'no-apply': props.row.mandatory === true && props.row.date == null }">
-          <QTd key="mandatory" :props="props">
-            <QIcon
-              size="sm"
-              :color="props.row.mandatory === true ? 'primary' : 'grey'"
-              name="fas fa-exclamation-triangle"
-            />
-          </QTd>
-          <QTd key="date" :props="props">
-            {{ props.row.date }}
-          </QTd>
-          <QTd key="disease" :props="props">
-            <span>
-              {{ props.row.disease }}
-            </span>
-          </QTd>
-          <QTd key="vaccinationName" :props="props">
-            <span>
-              {{ props.row.vaccinationName }}
-            </span>
-          </QTd>
-          <QTd key="serialNumber" :props="props">
-            {{ props.row.serialNumber }}
-          </QTd>
-          <QTd key="dose" :props="props">
-            {{ props.row.dose }}
-          </QTd>
-          <QTd key="receipt" :props="props">
-            {{ props.row.receipt }}
-          </QTd>
-          <QTd key="nextDate" :props="props">
-            {{ props.row.nextDate }}
-          </QTd>
-        </QTr>
-      </template>
-    </QTable>
+    <div class="row">
+      <div class="col-12">
+        <QTable
+          title="Očkování"
+          :data="data"
+          :columns="columns"
+          row-key="name"
+          title-class="text-primary"
+          class="q-mx-md"
+        >
+          <template #body="props">
+            <QTr :props="props" :class="{ 'no-apply': props.row.mandatory === true && props.row.date == null }">
+              <QTd key="mandatory" :props="props">
+                <QIcon
+                  size="sm"
+                  :color="props.row.mandatory === true ? 'primary' : 'grey'"
+                  name="fas fa-exclamation-triangle"
+                />
+              </QTd>
+              <QTd key="date" :props="props">
+                {{ props.row.date }}
+              </QTd>
+              <QTd key="disease" :props="props">
+                <span>
+                  {{ props.row.disease }}
+                </span>
+              </QTd>
+              <QTd key="vaccinationName" :props="props">
+                <span>
+                  {{ props.row.vaccinationName }}
+                </span>
+              </QTd>
+              <QTd key="serialNumber" :props="props">
+                {{ props.row.serialNumber }}
+              </QTd>
+              <QTd key="dose" :props="props">
+                {{ props.row.dose }}
+              </QTd>
+              <QTd key="receipt" :props="props">
+                {{ props.row.receipt }}
+              </QTd>
+              <QTd key="nextDate" :props="props">
+                {{ props.row.nextDate }}
+              </QTd>
+            </QTr>
+          </template>
+        </QTable>
+      </div>
+    </div>
   </QPage>
 </template>
 
