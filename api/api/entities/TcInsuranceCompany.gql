@@ -1,0 +1,4 @@
+type TcInsuranceCompany {
+  name: String!
+  code: String!
+}

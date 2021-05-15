@@ -2,11 +2,19 @@ type TcProfile {
   name: String!
   email: String
   phoneNumber: String
+  "Date of birth"
+  birthDate: DateTime
+  "Biological sex"
   sex: TcProfileSexEnum
+  "Height in meters"
   height: Float
+  "Weight in kilograms"
   weight: Float
+  "Body-mass index (weight / height^2)"
+  bmi: Float @precomputed
   "Rodne cislo"
   birthNumber: String
+  "Information about insurance"
   insurance: TcProfileInsurance! @default(value: "{}")
 }
 
