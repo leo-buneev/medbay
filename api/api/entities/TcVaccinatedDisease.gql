@@ -6,14 +6,10 @@ type TcVaccinatedDisease @meta(nameField: "disease"){
 type TcVaccine {
   name: String
   doseCount: Int
+  doseInterval: [TcDoseInterval!]! @default(value: "[]")
 }
 
-enum TcDoseEnum {
-  first
-  second
-  third
-  fourth
-  fifth
-  sixth
-  repeat
+type TcDoseInterval {
+  afterDose: Int
+  intervalDays: Int
 }
