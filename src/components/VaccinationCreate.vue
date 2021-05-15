@@ -31,7 +31,7 @@
         v-model="vaccinationDose"
         outlined
         :options="vaccinationDoseOptions"
-        label="Dóza"
+        label="Dávka"
         class="q-mx-md q-mt-md"
       />
     </div>
