@@ -26,9 +26,9 @@
     <QInput value="" outlined type="password" label="Opakovat heslo" class="q-mx-md q-mt-md" />
     <h6 class="q-mx-md q-mt-lg q-mb-none text-primary">Karta pojištěnce</h6>
     <QInput v-model="tcProfile.birthNumber" outlined label="Rodné číslo" class="q-mx-md q-mt-md" />
-    <QInput value="" outlined label="Číslo průkazu" class="q-mx-md q-mt-md" />
-    <RDatetime :value="null" outlined label="Platnost do" class="q-mx-md q-mt-md" />
-    <h6 class="q-mx-md q-mt-lg q-mb-none text-primary">Doplňující údaje</h6>
+    <QInput v-model="tcProfile.insuranceDocumentNumber" outlined label="Číslo průkazu" class="q-mx-md q-mt-md" />
+    <RDatetime v-model="tcProfile.insuranceExpiration" outlined label="Platnost do" class="q-mx-md q-mt-md" />
+    <!-- <h6 class="q-mx-md q-mt-lg q-mb-none text-primary">Doplňující údaje</h6> -->
     <QBtn color="primary" label="Uložit" class="q-ma-md" @click="save" />
   </QPage>
 </template>

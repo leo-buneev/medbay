@@ -13,6 +13,8 @@ const profileQuery = gql`
       weight
       birthNumber
       birthDate
+      insuranceDocumentNumber
+      insuranceExpiration
       usedBenefits {
         name
         date
