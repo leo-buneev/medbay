@@ -227,7 +227,6 @@ export default {
     },
 
     async init() {
-      console.log('this')
       const { tcVaccinatedDiseases } = await api.query({
         query: gql`
           query {

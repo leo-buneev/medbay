@@ -27,7 +27,6 @@ export default {
     }
   },
   mounted() {
-    console.log('YEAT')
     const showComponentDialogHandler = ({
       component,
       props,
