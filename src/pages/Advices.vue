@@ -1,6 +1,37 @@
 <template>
   <QList>
-    <QItem v-for="b of notifications" :key="b.name">
+    <h6>Nabidky</h6>
+    <QItem v-for="b of advices" :key="b.name">
+      <QItemSection side class="q-pl-sm">
+        <QIcon :name="getIcon(b)" />
+      </QItemSection>
+      <QItemSection>
+        <QItemLabel>
+          {{ b.name }}
+        </QItemLabel>
+        <QItemLabel v-if="b.type !== 'info'" caption :class="getPriceClass(b)">
+          {{ getPrice(b) }}
+        </QItemLabel>
+        <QItemLabel v-else caption>
+          {{ b.nextDate }}
+        </QItemLabel>
+      </QItemSection>
+      <QItemSection side>
+        <div class="row">
+          <div v-if="b.url" class="col-auto">
+            <QBtn round dence icon="far fa-question-circle" flat @click="openUrl(b.url)" />
+          </div>
+          <div class="col-auto">
+            <QBtn round dence icon="fas fa-check" flat @click="complete(b)" />
+          </div>
+          <div class="col-auto">
+            <QBtn round dence icon="fas fa-times" flat @click="discard(b)" />
+          </div>
+        </div>
+      </QItemSection>
+    </QItem>
+    <h6>Blizejici se vakcinace</h6>
+    <QItem v-for="b of userVaccinations" :key="b.name">
       <QItemSection side class="q-pl-sm">
         <QIcon :name="getIcon(b)" />
       </QItemSection>
@@ -64,6 +95,8 @@
 import moment from 'moment'
 import api from '@/services/api'
 import utils from '@/services/utils'
+import { dialog } from 'rads'
+import AdvicesCompleteDialog from './AdvicesCompleteDialog.vue'
 
 export default {
   data() {
@@ -168,11 +201,26 @@ export default {
     async complete(benefit) {
       const { tcProfile } = this.$store.state.user
 
-      const newBenefit = { name: benefit.name, date: new Date().toISOString(), type: benefit.type }
-      if (benefit.tcVaccinatedDisease?.id != null)
-        newBenefit.tcVaccinatedDisease = {
-          id: benefit.tcVaccinatedDisease.id,
+      let newBenefit = { name: benefit.name, date: new Date().toISOString(), type: benefit.type }
+      if (benefit.tcVaccinatedDisease?.id != null) {
+        let vaccinationName = null
+        if (benefit.tcVaccinatedDisease.vaccines?.length) {
+          await dialog.showComponentDialog({
+            component: AdvicesCompleteDialog,
+            props: { benefit },
+            listeners: {
+              input: v => {
+                vaccinationName = v
+              },
+            },
+          })
         }
+        newBenefit = {
+          ...newBenefit,
+          tcVaccinatedDisease: { id: benefit.tcVaccinatedDisease.id },
+          vaccinationName,
+        }
+      }
 
       await this.$store.dispatch('upsertTcProfile', {
         ...tcProfile,
@@ -219,10 +267,12 @@ export default {
 
 <style lang="scss">
 h6 {
-  padding-left: 10px;
+  padding-left: 16px;
   margin-bottom: 0;
   margin-top: 15px;
   font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
   color: $primary;
 }
 </style>

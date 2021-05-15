@@ -21,6 +21,7 @@ enum TcInsuranceCompanyBenefitTypeEnum {
   vaccination
   practitionerCheckup
   dentistCheckup
+  info
   other
 }
 

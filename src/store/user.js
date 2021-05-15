@@ -45,6 +45,9 @@ const profileQuery = gql`
           url
           tcVaccinatedDisease {
             id
+            vaccines {
+              name
+            }
           }
           condition {
             minAge

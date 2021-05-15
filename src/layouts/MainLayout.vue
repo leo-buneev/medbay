@@ -20,7 +20,7 @@
     </QDrawer> -->
 
     <QPageContainer>
-      <QTabPanels v-model="tab" animated swipeable>
+      <QTabPanels v-if="$store.state.user.tcProfile" v-model="tab" animated swipeable>
         <QTabPanel name="advice" class="q-px-none"><Advices /></QTabPanel>
         <QTabPanel name="vaccination"><Vaccination /></QTabPanel>
         <QTabPanel name="profile"><Profile /></QTabPanel>
