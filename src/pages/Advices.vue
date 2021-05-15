@@ -2,18 +2,24 @@
   <QList>
     <QItem>
       <QItemSection>
-        <RDatetime v-model="date" label="haha" />
+        <RDatetime v-model="date" :vuelidate="$v.date" label="haha" />
       </QItemSection>
     </QItem>
   </QList>
 </template>
 
 <script>
+import { validations } from 'rads'
+const { required } = validations
+
 export default {
+  validations: {
+    date: { required },
+  },
   data() {
     return {
       advices: null,
-      date: new Date().toISOString(),
+      date: null,
     }
   },
   created() {
@@ -21,6 +27,7 @@ export default {
   },
   safeMethods: {
     async init() {
+      await this.$validate()
       // this.advices = await api.query({})
     },
   },

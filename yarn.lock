@@ -6661,6 +6661,11 @@ jest-worker@^26.3.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
+jquery@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
+  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -8890,6 +8895,33 @@ rads-server@^0.3.7:
     transliteration "^2.2.0"
     uuid "^8.3.2"
 
+rads@^0.3.13:
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.13.tgz#f8e66d9a56a7a18536a16c7001ed109563a89ead"
+  integrity sha512-6DWq9okKUfIVqStvqdfnb1dwM31DqTuo/pnFHSFTQGFvnqifQkpCg6v6H+IqMlZnLHivuewshjz3v6vwMP+yXw==
+  dependencies:
+    "@apollo/client" "^3.3.9"
+    "@azure/storage-blob" "^12.4.1"
+    apollo-server-azure-functions "^2.21.0"
+    b64-to-blob "^1.2.19"
+    cors "^2.8.5"
+    dataloader "^2.0.0"
+    dexie "^3.0.3"
+    esm "^3.2.25"
+    express "^4.17.1"
+    graphql "^15.5.0"
+    http-proxy-middleware "^1.0.6"
+    jquery "^3.6.0"
+    klaw-sync "^6.0.0"
+    mime "^2.5.0"
+    module-alias "^2.2.2"
+    moment "^2.29.1"
+    node-fetch "^2.6.1"
+    pluralize "^8.0.0"
+    transliteration "^2.2.0"
+    uuid "^8.3.2"
+    vuelidate "^0.7.6"
+
 rads@^0.3.6:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.7.tgz#aaaa51a4d0972fed3522b0576335224f1e70f251"
@@ -8909,32 +8941,6 @@ rads@^0.3.6:
     klaw-sync "^6.0.0"
     mime "^2.5.0"
     module-alias "^2.2.2"
-    node-fetch "^2.6.1"
-    pluralize "^8.0.0"
-    transliteration "^2.2.0"
-    uuid "^8.3.2"
-    vuelidate "^0.7.6"
-
-rads@^0.3.9:
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.9.tgz#bd615f6757d3640131521cb39280683dc7180606"
-  integrity sha512-t0M3hLeluyIyHCdAO/e9J1rbXeAagqHsucBEyAWOYpTYLmQz5Q0K6m18E9AiVwHTQB8bw0RjFLEAQwKIarsM5w==
-  dependencies:
-    "@apollo/client" "^3.3.9"
-    "@azure/storage-blob" "^12.4.1"
-    apollo-server-azure-functions "^2.21.0"
-    b64-to-blob "^1.2.19"
-    cors "^2.8.5"
-    dataloader "^2.0.0"
-    dexie "^3.0.3"
-    esm "^3.2.25"
-    express "^4.17.1"
-    graphql "^15.5.0"
-    http-proxy-middleware "^1.0.6"
-    klaw-sync "^6.0.0"
-    mime "^2.5.0"
-    module-alias "^2.2.2"
-    moment "^2.29.1"
     node-fetch "^2.6.1"
     pluralize "^8.0.0"
     transliteration "^2.2.0"
