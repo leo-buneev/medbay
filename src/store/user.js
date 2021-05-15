@@ -19,6 +19,11 @@ const profileQuery = gql`
         type
         name
         date
+        tcVaccinatedDisease {
+          id
+          disease
+          mandatory
+        }
       }
       discardedBenefits {
         name
@@ -35,6 +40,9 @@ const profileQuery = gql`
           minIntervalDays
           type
           url
+          tcVaccinatedDisease {
+            id
+          }
           condition {
             minAge
             maxAge

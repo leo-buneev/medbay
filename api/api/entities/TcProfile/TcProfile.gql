@@ -28,6 +28,7 @@ type TcProfileUsedBenefit {
   type: TcInsuranceCompanyBenefitTypeEnum
   name: String!
   date: DateTime!
+  tcVaccinatedDisease: TcVaccinatedDisease @relation
   serialNumber: String
   receipt: ImageUrl
 }

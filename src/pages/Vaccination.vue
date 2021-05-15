@@ -1,10 +1,40 @@
 <template>
   <QPage class="flex flex-top column">
+    <div class="flex flex-center q-mb-lg">
+      <QSelect
+        v-model="vaccinationCreate.diseaseId"
+        emit-value
+        :display-value="
+          _.get(
+            diseaseOptions.find(item => item.value === diseaseId),
+            'label',
+          ) || '-'
+        "
+        outlined
+        :options="diseaseOptions"
+        label="Onemocnění"
+        class="q-mx-md q-mt-md"
+      />
+      <QSelect
+        v-model="vaccinationCreate.vaccination"
+        outlined
+        :options="vaccinationOptions"
+        label="Vakcína"
+        class="q-mx-md q-mt-md"
+      />
+      <QSelect
+        v-model="vaccinationCreate.vaccinationDose"
+        outlined
+        :options="vaccinationDoseOptions"
+        label="Dóza"
+        class="q-mx-md q-mt-md"
+      />
+    </div>
     <QTable title="Očkování" :data="data" :columns="columns" row-key="name">
       <template #body="props">
         <QTr :props="props">
           <QTd key="mandatory" :props="props">
-            <QIcon v-if="props.row.mandatory === true" color="primary" name="fas fa-exclamation-triangle" />
+            <QIcon :color="props.row.mandatory === true ? 'primary' : 'grey'" name="fas fa-exclamation-triangle" />
           </QTd>
           <QTd key="date" :props="props">
             {{ props.row.date }}
@@ -47,6 +77,12 @@ export default {
         { name: 'nextDate', label: 'příští aplikace', field: 'nextDate' },
       ],
       mandatoryVaccination: [],
+      vaccination: [],
+      vaccinationCreate: {
+        diseaseId: null,
+        vaccination: null,
+        vaccinationDose: null,
+      },
     }
   },
 
@@ -54,9 +90,36 @@ export default {
     data() {
       const userVaccination = (this.$store.state.user.tcProfile.usedBenefits || [])
         .filter(item => item.type === 'vaccination')
-        .map(item => ({ ...item, date: moment(item.date).format('L LT'), disease: item.name }))
+        .map(item => ({
+          ...item,
+          date: moment(item.date).format('L LT'),
+          mandatory: item.tcVaccinatedDisease.mandatory,
+          disease: item.tcVaccinatedDisease.disease,
+        }))
 
-      return [...userVaccination, ...this.mandatoryVaccination]
+      const userVaccinationIds = userVaccination.flatMap(item => item.tcVaccinatedDisease.id)
+
+      return [...userVaccination, ...this.mandatoryVaccination.filter(item => !userVaccinationIds.includes(item.id))]
+    },
+
+    diseaseOptions() {
+      return this.vaccination.map(item => ({ value: item.id, label: item.disease }))
+    },
+
+    selectedVactination() {
+      return this.vaccination.find(item => item.id === this.vaccinationCreate.diseaseId)
+    },
+
+    vaccinationOptions() {
+      return (this.selectedVactination?.vaccines || []).map(item => item.name)
+    },
+
+    vaccinationDoseOptions() {
+      const doses = (this.selectedVactination?.vaccines || []).find(
+        item => item.name === this.vaccinationCreate.vaccination,
+      )?.doseCount
+
+      return (doses != null && new Array(doses).fill(null).map((item, index) => index + 1)) || null
     },
   },
 
@@ -70,13 +133,14 @@ export default {
       const { tcVaccinatedDiseases } = await api.query({
         query: gql`
           query {
-            tcVaccinatedDiseases(where: { mandatory: true }) {
+            tcVaccinatedDiseases {
               nodes {
                 id
                 disease
                 mandatory
                 vaccines {
                   name
+                  doseCount
                 }
               }
             }
@@ -84,10 +148,15 @@ export default {
         `,
       })
 
-      this.mandatoryVaccination = (tcVaccinatedDiseases.nodes || []).map(item => ({
-        ...item,
-        vaccine: item.vaccines.map(vaccine => vaccine.name).join(', '),
-      }))
+      this.vaccination = tcVaccinatedDiseases.nodes || []
+      this.mandatoryVaccination = (tcVaccinatedDiseases.nodes || [])
+        .filter(item => item.mandatory === true)
+        .map(item => ({
+          ...item,
+          vaccine: item.vaccines.map(vaccine => vaccine.name).join(', '),
+        }))
+
+      console.log(this.vaccination)
     },
 
     async save() {

@@ -137,12 +137,16 @@ export default {
   safeMethods: {
     async complete(benefit) {
       const { tcProfile } = this.$store.state.user
+
+      const newBenefit = { name: benefit.name, date: new Date().toISOString(), type: benefit.type }
+      if (benefit.tcVaccinatedDisease?.id != null)
+        newBenefit.tcVaccinatedDisease = {
+          id: benefit.tcVaccinatedDisease.id,
+        }
+
       await this.$store.dispatch('upsertTcProfile', {
         ...tcProfile,
-        usedBenefits: [
-          ...tcProfile.usedBenefits,
-          { name: benefit.name, date: new Date().toISOString(), type: benefit.type },
-        ],
+        usedBenefits: [...tcProfile.usedBenefits, newBenefit],
       })
     },
     async discard(benefit) {
