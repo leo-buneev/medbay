@@ -1,6 +1,10 @@
 <template>
   <QList>
-    <QItem>Test</QItem>
+    <QItem>
+      <QItemSection>
+        <RDatetime v-model="date" label="haha" />
+      </QItemSection>
+    </QItem>
   </QList>
 </template>
 
@@ -9,6 +13,7 @@ export default {
   data() {
     return {
       advices: null,
+      date: new Date().toISOString(),
     }
   },
   created() {

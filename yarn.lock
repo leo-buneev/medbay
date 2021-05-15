@@ -7450,7 +7450,7 @@ module-alias@^2.2.2:
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
 
-moment@^2.22.1:
+moment@^2.22.1, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -8890,7 +8890,7 @@ rads-server@^0.3.7:
     transliteration "^2.2.0"
     uuid "^8.3.2"
 
-rads@^0.3.6, rads@^0.3.7:
+rads@^0.3.6:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.7.tgz#aaaa51a4d0972fed3522b0576335224f1e70f251"
   integrity sha512-zMSQXb1bwFIXL+P6RzHgfWjIfjCzo/poVsCdJCBiWuTGXEPy0SIYA36ZdlmgtmVd20pw89j1wv4DoJSrBtsaDw==
@@ -8909,6 +8909,32 @@ rads@^0.3.6, rads@^0.3.7:
     klaw-sync "^6.0.0"
     mime "^2.5.0"
     module-alias "^2.2.2"
+    node-fetch "^2.6.1"
+    pluralize "^8.0.0"
+    transliteration "^2.2.0"
+    uuid "^8.3.2"
+    vuelidate "^0.7.6"
+
+rads@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/rads/-/rads-0.3.9.tgz#bd615f6757d3640131521cb39280683dc7180606"
+  integrity sha512-t0M3hLeluyIyHCdAO/e9J1rbXeAagqHsucBEyAWOYpTYLmQz5Q0K6m18E9AiVwHTQB8bw0RjFLEAQwKIarsM5w==
+  dependencies:
+    "@apollo/client" "^3.3.9"
+    "@azure/storage-blob" "^12.4.1"
+    apollo-server-azure-functions "^2.21.0"
+    b64-to-blob "^1.2.19"
+    cors "^2.8.5"
+    dataloader "^2.0.0"
+    dexie "^3.0.3"
+    esm "^3.2.25"
+    express "^4.17.1"
+    graphql "^15.5.0"
+    http-proxy-middleware "^1.0.6"
+    klaw-sync "^6.0.0"
+    mime "^2.5.0"
+    module-alias "^2.2.2"
+    moment "^2.29.1"
     node-fetch "^2.6.1"
     pluralize "^8.0.0"
     transliteration "^2.2.0"
