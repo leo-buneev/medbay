@@ -1,6 +1,6 @@
 <template>
   <QList>
-    <h6>Nabidky</h6>
+    <h6>Nabídky</h6>
     <QItem v-for="b of advices" :key="b.name">
       <QItemSection side class="q-pl-sm">
         <QIcon :name="getIcon(b)" />
@@ -30,7 +30,7 @@
         </div>
       </QItemSection>
     </QItem>
-    <h6>Blizejici se vakcinace</h6>
+    <h6>Blížící se vakcinace</h6>
     <QItem v-for="b of userVaccinations" :key="b.name">
       <QItemSection side class="q-pl-sm">
         <QIcon :name="getIcon(b)" />
