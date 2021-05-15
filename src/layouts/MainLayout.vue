@@ -1,6 +1,6 @@
 <template>
   <QLayout view="lHh Lpr lFf" class="main-layout">
-    <QHeader elevated>
+    <QHeader v-if="!$store.state.user.isScanning" elevated>
       <QToolbar>
         <!-- <QBtn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" /> -->
 
@@ -32,7 +32,7 @@
       </Transition>
     </QPageContainer> -->
 
-    <QFooter>
+    <QFooter v-if="!$store.state.user.isScanning">
       <QTabs
         v-model="tab"
         class="main-layout__tabs text-grey-5"

@@ -68,10 +68,14 @@ const upsertProfileMutation = gql`
 export default {
   state: {
     tcProfile: null,
+    isScanning: false,
   },
   mutations: {
     setProfile(ctx, tcProfile) {
       ctx.tcProfile = tcProfile
+    },
+    setIsScanning(ctx, isScanning) {
+      ctx.isScanning = isScanning
     },
   },
   actions: {

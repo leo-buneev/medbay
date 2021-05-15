@@ -52,12 +52,13 @@
 
 <script>
 import api from '@/services/api'
-import { validations } from 'rads'
+import { validations, notify } from 'rads'
 import camera from '@/services/camera'
 import { ComputerVisionClient } from '@azure/cognitiveservices-computervision'
 import { ApiKeyCredentials } from '@azure/ms-rest-js'
 import azureStorage from '@/services/azureStorage'
 import b64toBlob from 'b64-to-blob'
+import moment from 'moment'
 
 const { required } = validations
 
@@ -69,7 +70,6 @@ export default {
   },
 
   data() {
-    console.log(required)
     const profile = this.$store.state.user.tcProfile
 
     let lastName = profile.name.split(' ')
@@ -93,7 +93,19 @@ export default {
 
   methods: {
     async scanId() {
-      const picture = await camera.takePicture()
+      this.$store.commit('setIsScanning', true)
+      let picture = null
+      try {
+        picture = await camera.takePicture()
+      } finally {
+        this.$store.commit('setIsScanning', false)
+      }
+      if (picture) this.handlePicture(picture)
+    },
+  },
+
+  safeMethods: {
+    async handlePicture(picture) {
       const blobToUpload = b64toBlob(picture, 'image/png')
       const imageUrl = await azureStorage.upload('medkit', 'image2.jpg', blobToUpload)
       const endpoint = 'https://medkit-vision.cognitiveservices.azure.com/'
@@ -111,13 +123,53 @@ export default {
         await tc.delay(1000)
         result = await computerVisionClient.getReadResult(operation)
       }
-      console.log(result)
-
-      return result.analyzeResult.readResults
+      console.log('Scan result:', result)
+      this.handleOcrResult(result)
     },
-  },
+    handleOcrResult(ocrResult) {
+      const lines = _.get(ocrResult, 'analyzeResult.readResults[0].lines').map(l => l.text)
+      const regularExpressions = {
+        country: /^[a-zA-Z]{2}$/i,
+        birthDate: /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/i,
+        insuranceExpiration: /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/i,
+        insuranceNameCode: /^[0-9]{3,6} - [a-záéíóúýčďěňřšťžů0-9]{2,20}$/i,
+        insuranceDocumentNumber: /^[0-9]{20}$/i,
+        birthNumber: /^[0-9]{10}$/i,
+        lastName: /^[a-záéíóúýčďěňřšťžů ]{3,30}$/i,
+        firstName: /^[a-záéíóúýčďěňřšťžů ]{3,30}$/i,
+      }
+      const regexes = _.clone(regularExpressions)
+      const result = {}
+      for (const l of lines) {
+        for (const key in regexes) {
+          const regex = regexes[key]
+          if (regex.test(l)) {
+            result[key] = l
+            delete regexes[key]
+            break
+          }
+        }
+      }
+      console.log('Detection result', result)
 
-  safeMethods: {
+      if (_.keys(result).length < _.keys(regularExpressions).length - 1) {
+        throw new tc.SafeError('Skenovani karticky se nepovedlo. Prosime, zkuste znovu.')
+      } else {
+        this.firstName = result.firstName
+        this.lastName = result.lastName
+        this.tcProfile.birthNumber = result.birthNumber
+        this.tcProfile.insuranceDocumentNumber = result.insuranceDocumentNumber
+        this.tcProfile.insuranceExpiration = moment(result.insuranceExpiration, 'DD/MM/YYYY').toISOString()
+        this.tcProfile.birthDate = moment(result.birthDate, 'DD/MM/YYYY').toISOString()
+        this.tcProfile.tcInsuranceCompany.id = this.insuranceCompanyOptios.find(
+          x => x.label.toLowerCase().slice(0, 3) === result.insuranceNameCode.toLowerCase().slice(0, 3),
+        )?.value
+        notify.create({
+          type: 'positive',
+          message: 'Karta pojisteni byla uspesne naskenovana. Udaje dole byli vyplnene automaticky.',
+        })
+      }
+    },
     async init() {
       const { tcInsuranceCompanies } = await api.query({
         query: gql`
