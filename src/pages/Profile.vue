@@ -53,6 +53,11 @@
 <script>
 import api from '@/services/api'
 import { validations } from 'rads'
+import camera from '@/services/camera'
+import { ComputerVisionClient } from '@azure/cognitiveservices-computervision'
+import { ApiKeyCredentials } from '@azure/ms-rest-js'
+import azureStorage from '@/services/azureStorage'
+import b64toBlob from 'b64-to-blob'
 
 const { required } = validations
 
