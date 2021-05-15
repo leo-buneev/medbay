@@ -1,7 +1,7 @@
 <template>
   <QPage class="flex flex-top column">
-    <QInput value="" outlined label="Jméno" class="q-mx-md q-mt-md" />
-    <QInput value="" outlined label="Příjmení" class="q-mx-md q-mt-md" />
+    <QInput v-model="firstName" outlined label="Jméno" class="q-mx-md q-mt-md" />
+    <QInput v-model="lastName" outlined label="Příjmení" class="q-mx-md q-mt-md" />
     <QSelect
       v-model="tcProfile.sex"
       emit-value
@@ -40,9 +40,15 @@ export default {
   validations: {},
 
   data() {
-    console.log(this.$store.state.user.tcProfile)
+    const profile = this.$store.state.user.tcProfile
+
+    let lastName = profile.name.split(' ')
+    lastName = lastName[lastName.length - 1]
+
     return {
-      tcProfile: _.cloneDeep(this.$store.state.user.tcProfile),
+      tcProfile: _.cloneDeep(profile),
+      firstName: profile.name.replace(` ${lastName}`, ''),
+      lastName: lastName,
       sexOptios: [
         { value: 'male', label: 'Muž' },
         { value: 'female', label: 'Žena' },
@@ -80,6 +86,9 @@ export default {
 
     async save() {
       await this.$validate()
+
+      this.tcProfile.name = `${this.firstName} ${this.lastName}`
+
       await this.$store.dispatch('upsertTcProfile', this.tcProfile)
     },
   },
