@@ -86,7 +86,7 @@ export default {
     },
     async upsertTcProfile(ctx, tcProfile) {
       await api.mutate({ mutation: upsertProfileMutation, variables: { data: tcProfile } })
-      ctx.commit('setProfile', tcProfile)
+      await ctx.dispatch('init')
     },
   },
 }
