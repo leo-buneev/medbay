@@ -81,6 +81,7 @@
 <script>
 import moment from 'moment'
 import api from '@/services/api'
+import utils from '@/services/utils'
 
 export default {
   data() {
@@ -112,17 +113,13 @@ export default {
       const userVaccination = (this.$store.state.user.tcProfile.usedBenefits || [])
         .filter(item => item.type === 'vaccination')
         .map(item => {
-          const intervalDays = (
-            (this.vaccination.find(x => x.id === item.tcVaccinatedDisease.id)?.vaccines || []).find(
-              x => x.name === item.vaccinationName,
-            )?.doseInterval || []
-          ).find(x => x.afterDose === item.dose)?.intervalDays
+          const intervalDays = utils.getIntervalDays(item, this.vaccination)
 
           return {
             ...item,
             date: moment(item.date).format('L'),
-            mandatory: item.tcVaccinatedDisease.mandatory,
-            disease: item.tcVaccinatedDisease.disease,
+            mandatory: utils.getMandatory(item, this.vaccination),
+            disease: utils.getDisease(item, this.vaccination),
             ...(intervalDays > 0 && {
               nextDate: moment(item.date)
                 .add(intervalDays, 'days')
@@ -203,32 +200,29 @@ export default {
         .filter(item => item.mandatory === true)
         .map(item => ({
           ...item,
-          vaccine: item.vaccines.map(vaccine => vaccine.name).join(', '),
+          vaccinationName: item.vaccines.map(vaccine => vaccine.name).join(', '),
         }))
-
-      console.log(this.vaccination)
     },
 
     async complete(benefit) {
       const { tcProfile } = this.$store.state.user
 
-      const productx = {
-        name: this.diseaseOptions.find(item => item.value === this.vaccinationCreate.diseaseId).label,
-        date: new Date(this.vaccinationCreate.date).toISOString(),
-        vaccinationName: this.vaccinationCreate.vaccination,
-        serialNumber: this.vaccinationCreate.serialNumber,
-        dose: this.vaccinationCreate.vaccinationDose,
-        tcVaccinatedDisease: {
-          id: this.vaccinationCreate.diseaseId,
-        },
-        type: 'vaccination',
-      }
-
-      console.log(productx)
-
       await this.$store.dispatch('upsertTcProfile', {
         ...tcProfile,
-        usedBenefits: [...tcProfile.usedBenefits, productx],
+        usedBenefits: [
+          ...tcProfile.usedBenefits,
+          {
+            name: this.diseaseOptions.find(item => item.value === this.vaccinationCreate.diseaseId).label,
+            date: new Date(this.vaccinationCreate.date).toISOString(),
+            vaccinationName: this.vaccinationCreate.vaccination,
+            serialNumber: this.vaccinationCreate.serialNumber,
+            dose: this.vaccinationCreate.vaccinationDose,
+            tcVaccinatedDisease: {
+              id: this.vaccinationCreate.diseaseId,
+            },
+            type: 'vaccination',
+          },
+        ],
       })
     },
   },
