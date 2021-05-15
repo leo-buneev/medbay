@@ -11,6 +11,7 @@ const profileQuery = gql`
       height
       weight
       birthNumber
+      birthDate
       tcInsuranceCompany {
         name
         code

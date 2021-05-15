@@ -2,7 +2,7 @@
   <QList>
     <QItem v-for="b of advices" :key="b.name">
       <QItemSection side>
-        {{ b.name }}
+        <QIcon name="fas fa-syringe" />
       </QItemSection>
       <QItemSection>
         {{ b.name }}

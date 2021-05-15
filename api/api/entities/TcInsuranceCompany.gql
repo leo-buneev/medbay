@@ -11,8 +11,16 @@ type TcInsuranceCompanyBenefit {
   subsidy: Float
   "How many days must pass between applications of benefit - i.e. between visits to doctor. 365 for 1 year."
   minIntervalDays: Int
+  type: TcInsuranceCompanyBenefitTypeEnum
   url: String
   condition: TcInsuranceCompanyBenefitCondition! @default(value: "{}")
+}
+
+enum TcInsuranceCompanyBenefitTypeEnum {
+  vaccination
+  practitionerCheckup
+  dentistCheckup
+  other
 }
 
 type TcInsuranceCompanyBenefitCondition {

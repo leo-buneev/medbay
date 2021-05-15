@@ -22,6 +22,7 @@
     <QPageContainer>
       <QTabPanels v-model="tab" animated swipeable>
         <QTabPanel name="advice"><Advices /></QTabPanel>
+        <QTabPanel name="vaccination"><Vaccination /></QTabPanel>
         <QTabPanel name="profile"><Profile /></QTabPanel>
       </QTabPanels>
     </QPageContainer>
@@ -42,6 +43,7 @@
         shrink
       >
         <QTab icon="fas fa-exclamation" name="advice">Doporučení</QTab>
+        <QTab icon="fas fa-syringe" name="vaccination">Očkování</QTab>
         <QTab icon="fas fa-id-card" name="profile">Profil</QTab>
       </QTabs>
     </QFooter>
@@ -51,6 +53,7 @@
 <script>
 import Advices from '@/pages/Advices.vue'
 import Profile from '@/pages/Profile.vue'
+import Vaccination from '@/pages/Vaccination.vue'
 
 // const linksData = [
 //   {
@@ -99,7 +102,7 @@ import Profile from '@/pages/Profile.vue'
 
 export default {
   name: 'MainLayout',
-  components: { Profile, Advices },
+  components: { Profile, Advices, Vaccination },
   data() {
     return {
       tab: 'advice',
