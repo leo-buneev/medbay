@@ -1,34 +1,32 @@
 <template>
   <QList>
-    <QItem>
+    <QItem v-for="b of advices" :key="b.name">
+      <QItemSection side>
+        {{ b.name }}
+      </QItemSection>
       <QItemSection>
-        <RDatetime v-model="date" :vuelidate="$v.date" label="haha" />
+        {{ b.name }}
       </QItemSection>
     </QItem>
   </QList>
 </template>
 
 <script>
-import { validations } from 'rads'
-const { required } = validations
-
+import moment from 'moment'
 export default {
-  validations: {
-    date: { required },
-  },
-  data() {
-    return {
-      advices: null,
-      date: null,
-    }
-  },
-  created() {
-    this.init()
-  },
-  safeMethods: {
-    async init() {
-      await this.$validate()
-      // this.advices = await api.query({})
+  computed: {
+    advices() {
+      const { tcProfile } = this.$store.state.user
+      const benefits = tcProfile?.tcInsuranceCompany?.benefits
+      if (!benefits) return []
+
+      const age = moment().diff(tcProfile.birthDate, 'years')
+      return benefits.filter(b => {
+        if (b.condition.minAge && age < b.condition.minAge) return false
+        if (b.condition.maxAge && age > b.condition.maxAge) return false
+        if (b.condition.sex && tcProfile.sex && tcProfile.sex !== b.condition.sex) return false
+        return true
+      })
     },
   },
 }
