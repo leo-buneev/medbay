@@ -1,4 +1,5 @@
 import { installGlobalComponents, installGlobalMixins } from 'rads'
+import moment from 'moment'
 
 const translateFn = str => str
 if (window && !window.loc) {
@@ -14,6 +15,7 @@ if (window && !window.loc) {
     return string
   }
 }
+moment.locale('cs-cz')
 
 export default ({ app, router, store, Vue }) => {
   installGlobalMixins()

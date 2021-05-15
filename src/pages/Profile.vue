@@ -1,13 +1,19 @@
 <template>
   <QPage class="flex flex-top column">
+    <QBtn label="Naskenovat kartu pojistence" no-caps color="primary" class="q-mx-md" @click="scanId" />
     <QInput v-model="firstName" outlined label="Jméno" class="q-mx-md q-mt-md" />
     <QInput v-model="lastName" outlined label="Příjmení" class="q-mx-md q-mt-md" />
     <QSelect
       v-model="tcProfile.sex"
       emit-value
-      :display-value="sexOptios.find(item => item.value === tcProfile.sex).label || ''"
+      :display-value="
+        _.get(
+          sexOptions.find(item => item.value === tcProfile.sex),
+          'label',
+        ) || '-'
+      "
       outlined
-      :options="sexOptios"
+      :options="sexOptions"
       label="Pohlaví"
       class="q-mx-md q-mt-md"
     />
@@ -15,7 +21,12 @@
     <QSelect
       v-model="tcProfile.tcInsuranceCompany.id"
       emit-value
-      :display-value="insuranceCompanyOptios.find(item => item.value === tcProfile.tcInsuranceCompany.id).label || ''"
+      :display-value="
+        _.get(
+          insuranceCompanyOptios.find(item => item.value === tcProfile.tcInsuranceCompany.id),
+          'label',
+        ) || '-'
+      "
       outlined
       :options="insuranceCompanyOptios"
       label="Pojištovna"
@@ -35,6 +46,11 @@
 
 <script>
 import api from '@/services/api'
+import camera from '@/services/camera'
+import { ComputerVisionClient } from '@azure/cognitiveservices-computervision'
+import { ApiKeyCredentials } from '@azure/ms-rest-js'
+import azureStorage from '@/services/azureStorage'
+import b64toBlob from 'b64-to-blob'
 
 export default {
   validations: {},
@@ -49,7 +65,7 @@ export default {
       tcProfile: _.cloneDeep(profile),
       firstName: profile.name.replace(` ${lastName}`, ''),
       lastName: lastName,
-      sexOptios: [
+      sexOptions: [
         { value: 'male', label: 'Muž' },
         { value: 'female', label: 'Žena' },
       ],
@@ -61,9 +77,34 @@ export default {
     this.init()
   },
 
+  methods: {
+    async scanId() {
+      const picture = await camera.takePicture()
+      const blobToUpload = b64toBlob(picture, 'image/png')
+      const imageUrl = await azureStorage.upload('medkit', 'image2.jpg', blobToUpload)
+      const endpoint = 'https://medkit-vision.cognitiveservices.azure.com/'
+      const key = '1579fbce7f904bf6bf42a4e77e709c94'
+      const computerVisionClient = new ComputerVisionClient(
+        new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }),
+        endpoint,
+      )
+      let result = await computerVisionClient.read(imageUrl, { language: 'cs' })
+      const operation = result.operationLocation.split('/').slice(-1)[0]
+
+      // Wait for read recognition to complete
+      // result.status is initially undefined, since it's the result of read
+      while (result.status !== 'succeeded') {
+        await tc.delay(1000)
+        result = await computerVisionClient.getReadResult(operation)
+      }
+      console.log(result)
+
+      return result.analyzeResult.readResults
+    },
+  },
+
   safeMethods: {
     async init() {
-      console.log('this')
       const { tcInsuranceCompanies } = await api.query({
         query: gql`
           query {

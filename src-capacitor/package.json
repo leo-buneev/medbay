@@ -1,0 +1,12 @@
+{
+  "name": "medbay",
+  "version": "0.0.1",
+  "description": "Your one-stop shop for all medical needs",
+  "author": "Olpa",
+  "private": true,
+  "dependencies": {
+    "@capacitor/cli": "^2.0.0",
+    "@capacitor/core": "^2.0.0",
+    "@capacitor/ios": "2.4.7"
+  }
+}

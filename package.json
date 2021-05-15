@@ -12,7 +12,12 @@
     "dev-api": "nodemon -q --inspect -r esm ./api/dev.js"
   },
   "dependencies": {
+    "@azure/cognitiveservices-computervision": "^8.0.0",
+    "@azure/storage-blob": "^12.5.0",
+    "@capacitor/core": "^2.4.7",
+    "@ionic/pwa-elements": "^3.0.2",
     "@quasar/extras": "^1.0.0",
+    "b64-to-blob": "^1.2.19",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
     "rads": "^0.3.13",

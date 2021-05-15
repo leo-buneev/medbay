@@ -126,6 +126,7 @@ export default {
       return ''
     },
     formatDate(date) {
+      if (!date) return '-'
       return moment(date).fromNow()
     },
     openUrl(url) {

@@ -1,0 +1,10 @@
+{
+  "appId": "org.olpa.medbay.com",
+  "appName": "Medbay",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "server": {
+    "url": "http://10.145.102.249:1487"
+  }
+}
