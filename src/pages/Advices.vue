@@ -110,7 +110,10 @@ export default {
       const { tcProfile } = this.$store.state.user
       const { usedBenefits } = tcProfile
       const benefits = tcProfile?.tcInsuranceCompany?.benefits
-      return usedBenefits.map(db => ({ date: db.date, ...benefits.find(x => x.name === db.name) }))
+      return usedBenefits.map(db => ({
+        date: db.date,
+        ...benefits.find(x => x.name === db.name || x?.tcVaccinatedDisease?.disease === db.name),
+      }))
     },
     discardedAdvices() {
       const { tcProfile } = this.$store.state.user

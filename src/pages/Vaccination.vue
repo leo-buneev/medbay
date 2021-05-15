@@ -199,6 +199,6 @@ export default {
   .q-icon {
     color: $negative !important;
   }
-  border: 2px solid $negative;
+  // border: 2px solid $negative;
 }
 </style>

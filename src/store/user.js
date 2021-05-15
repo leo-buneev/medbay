@@ -45,6 +45,7 @@ const profileQuery = gql`
           url
           tcVaccinatedDisease {
             id
+            disease
             vaccines {
               name
             }
