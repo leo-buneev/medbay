@@ -3,7 +3,39 @@
     <VaccinationCreate />
     <div class="row">
       <div class="col-12">
+        <div v-if="$q.screen.xs">
+          <h6>Očkování</h6>
+          <QList>
+            <QItem
+              v-for="v of data"
+              :key="v.name"
+              :class="{ 'no-apply-item': v.mandatory === true && v.date == null }"
+              class="q-pa-md"
+            >
+              <QItemSection side>
+                <QIcon
+                  size="sm"
+                  :color="v.mandatory === true ? 'primary' : 'grey'"
+                  name="fas fa-exclamation-triangle"
+                />
+              </QItemSection>
+              <QItemSection>
+                <QItemLabel>{{ v.date }} - {{ v.disease }}</QItemLabel>
+                <QItemLabel caption>
+                  {{ v.vaccinationName }}
+                  {{ v.serialNumber }}
+                  <div v-if="v.dose">Davka: {{ v.dose }}</div>
+                  {{ v.receipt }}
+                  <div v-if="v.nextDate">Pristi davka: {{ v.nextDate }}</div>
+                </QItemLabel>
+              </QItemSection>
+            </QItem>
+          </QList>
+          <div />
+        </div>
         <QTable
+          v-else
+          :pagination.sync="tablePagination"
           title="Očkování"
           :data="data"
           :columns="columns"
@@ -64,8 +96,9 @@ export default {
 
   data() {
     return {
+      tablePagination: { rowsPerPage: 50 },
       columns: [
-        { name: 'mandatory', label: 'povinná', field: 'mandatory', align: 'center' },
+        { name: 'mandatory', label: 'povinná', field: 'mandatoryStr', align: 'center' },
         { name: 'date', label: 'datum', field: 'date', align: 'left' },
         { name: 'disease', label: 'onemocnění', field: 'disease', align: 'left' },
         { name: 'vaccinationName', label: 'vakcína', field: 'vaccinationName', align: 'left' },
@@ -90,6 +123,7 @@ export default {
             ...item,
             date: moment(item.date).format('L'),
             mandatory: utils.getMandatory(item, this.vaccination),
+            mandatoryStr: utils.getMandatory(item, this.vaccination) ? 'Ano' : 'Ne',
             disease: utils.getDisease(item, this.vaccination),
             ...(intervalDays > 0 && {
               nextDate: moment(item.date)
@@ -156,8 +190,15 @@ export default {
     color: #fff;
   }
 
-  & > td .q-icon {
+  & .q-icon {
     color: $negative !important;
   }
+}
+
+.no-apply-item {
+  .q-icon {
+    color: $negative !important;
+  }
+  border: 2px solid $negative;
 }
 </style>
