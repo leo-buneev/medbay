@@ -1,50 +1,6 @@
 <template>
   <QPage class="flex flex-top column">
-    <div class="row">
-      <div class="col-4">
-        <QSelect
-          v-model="vaccinationCreate.diseaseId"
-          emit-value
-          :display-value="
-            _.get(
-              diseaseOptions.find(item => item.value === vaccinationCreate.diseaseId),
-              'label',
-            ) || '-'
-          "
-          outlined
-          :options="diseaseOptions"
-          label="Onemocnění"
-          class="q-mx-md q-mt-md"
-        />
-      </div>
-      <div class="col-4">
-        <QSelect
-          v-model="vaccinationCreate.vaccination"
-          outlined
-          :options="vaccinationOptions"
-          label="Vakcína"
-          class="q-mx-md q-mt-md"
-        />
-      </div>
-      <div class="col-4">
-        <QSelect
-          v-model="vaccinationCreate.vaccinationDose"
-          outlined
-          :options="vaccinationDoseOptions"
-          label="Dóza"
-          class="q-mx-md q-mt-md"
-        />
-      </div>
-      <div class="col-4">
-        <RInput v-model="vaccinationCreate.serialNumber" outlined label="Sériové číslo" class="q-mx-md q-mt-md" />
-      </div>
-      <div class="col-4">
-        <RDatetime v-model="vaccinationCreate.date" outlined label="Datum aplikace" class="q-mx-md q-mt-md" />
-      </div>
-      <div class="col-12 text-right">
-        <QBtn color="primary" label="Přidat" class="q-ma-md" @click="complete" />
-      </div>
-    </div>
+    <VaccinationCreate />
     <QTable title="Očkování" :data="data" :columns="columns" row-key="name" title-class="text-primary">
       <template #body="props">
         <QTr :props="props" :class="{ 'no-apply': props.row.mandatory === true && props.row.date == null }">
@@ -90,8 +46,11 @@
 import moment from 'moment'
 import api from '@/services/api'
 import utils from '@/services/utils'
+import VaccinationCreate from '@/components/VaccinationCreate.vue'
 
 export default {
+  components: { VaccinationCreate },
+
   data() {
     return {
       columns: [
@@ -106,13 +65,6 @@ export default {
       ],
       mandatoryVaccination: [],
       vaccination: [],
-      vaccinationCreate: {
-        diseaseId: null,
-        vaccination: null,
-        vaccinationDose: null,
-        serialNumber: null,
-        date: null,
-      },
     }
   },
 
@@ -136,42 +88,9 @@ export default {
           }
         })
 
-      console.log(userVaccination)
-
       const userVaccinationIds = userVaccination.flatMap(item => item.tcVaccinatedDisease.id)
 
       return [...userVaccination, ...this.mandatoryVaccination.filter(item => !userVaccinationIds.includes(item.id))]
-    },
-
-    diseaseOptions() {
-      return this.vaccination.map(item => ({ value: item.id, label: item.disease }))
-    },
-
-    selectedVactination() {
-      return this.vaccination.find(item => item.id === this.vaccinationCreate.diseaseId)
-    },
-
-    vaccinationOptions() {
-      return (this.selectedVactination?.vaccines || []).map(item => item.name)
-    },
-
-    vaccinationDoseOptions() {
-      const doses = (this.selectedVactination?.vaccines || []).find(
-        item => item.name === this.vaccinationCreate.vaccination,
-      )?.doseCount
-
-      return (doses != null && new Array(doses).fill(null).map((item, index) => index + 1)) || null
-    },
-  },
-
-  watch: {
-    'vaccinationCreate.diseaseId'() {
-      this.vaccinationCreate.vaccination = null
-      this.vaccinationCreate.vaccinationDose = null
-    },
-
-    'vaccinationCreate.vaccination'() {
-      this.vaccinationCreate.vaccinationDose = null
     },
   },
 
@@ -210,28 +129,6 @@ export default {
           ...item,
           vaccinationName: item.vaccines.map(vaccine => vaccine.name).join(', '),
         }))
-    },
-
-    async complete(benefit) {
-      const { tcProfile } = this.$store.state.user
-
-      await this.$store.dispatch('upsertTcProfile', {
-        ...tcProfile,
-        usedBenefits: [
-          ...tcProfile.usedBenefits,
-          {
-            name: this.diseaseOptions.find(item => item.value === this.vaccinationCreate.diseaseId).label,
-            date: new Date(this.vaccinationCreate.date).toISOString(),
-            vaccinationName: this.vaccinationCreate.vaccination,
-            serialNumber: this.vaccinationCreate.serialNumber,
-            dose: this.vaccinationCreate.vaccinationDose,
-            tcVaccinatedDisease: {
-              id: this.vaccinationCreate.diseaseId,
-            },
-            type: 'vaccination',
-          },
-        ],
-      })
     },
   },
 }
