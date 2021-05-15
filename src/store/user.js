@@ -19,6 +19,9 @@ const profileQuery = gql`
         type
         name
         date
+        dose
+        vaccinationName
+        serialNumber
         tcVaccinatedDisease {
           id
           disease

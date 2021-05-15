@@ -29,8 +29,10 @@ type TcProfileUsedBenefit {
   name: String!
   date: DateTime!
   tcVaccinatedDisease: TcVaccinatedDisease @relation
+  vaccinationName: String
   serialNumber: String
   receipt: ImageUrl
+  dose: Int,
 }
 
 type TcProfileDiscardedBenefit {
