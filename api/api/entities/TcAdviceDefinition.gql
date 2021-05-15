@@ -1,5 +1,11 @@
 type TcAdviceDefinition {
   name: String!
   description: String!
-  condition: String
+  condition: TcAdviceDefinitionCondition
+}
+
+type TcAdviceDefinitionCondition {
+  sexIn: [TcProfileSexEnum!]! @default(value: "[]")
+  minWeight: Float
+  insuranceCompanyCodes: [Int!]!
 }
