@@ -19,6 +19,7 @@ const profileQuery = gql`
       }
       discardedBenefits {
         name
+        date
       }
       tcInsuranceCompany {
         id
@@ -29,6 +30,8 @@ const profileQuery = gql`
           description
           subsidy
           minIntervalDays
+          type
+          url
           condition {
             minAge
             maxAge

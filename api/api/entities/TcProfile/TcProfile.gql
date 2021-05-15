@@ -27,7 +27,7 @@ type TcProfileUsedBenefit {
 
 type TcProfileDiscardedBenefit {
   name: String!
-  date: DateTime!
+  date: DateTime
 }
 
 enum TcProfileSexEnum {

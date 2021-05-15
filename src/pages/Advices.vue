@@ -14,6 +14,9 @@
       </QItemSection>
       <QItemSection side>
         <div class="row">
+          <div v-if="b.url" class="col-auto">
+            <QBtn round dence icon="far fa-question-circle" flat @click="openUrl(b.url)" />
+          </div>
           <div class="col-auto">
             <QBtn round dence icon="fas fa-check" flat @click="complete(b)" />
           </div>
@@ -124,6 +127,9 @@ export default {
     },
     formatDate(date) {
       return moment(date).fromNow()
+    },
+    openUrl(url) {
+      window.open(url, '_blank')
     },
   },
 
