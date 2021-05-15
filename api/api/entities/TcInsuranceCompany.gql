@@ -1,4 +1,22 @@
 type TcInsuranceCompany {
   name: String!
   code: String!
+  benefits: [TcInsuranceCompanyBenefit!]! @default(value: "[]")
+}
+
+type TcInsuranceCompanyBenefit {
+  name: String!
+  description: String
+  "How much money (in CZK) this insurance company contributes"
+  subsidy: Float
+  "How many days must pass between applications of benefit - i.e. between visits to doctor. 365 for 1 year."
+  minIntervalDays: Int
+  url: String
+  condition: TcInsuranceCompanyBenefitCondition! @default(value: "{}")
+}
+
+type TcInsuranceCompanyBenefitCondition {
+  minAge: Int
+  maxAge: Int
+  sex: TcProfileSexEnum
 }

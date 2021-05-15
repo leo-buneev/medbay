@@ -11,10 +11,20 @@ const profileQuery = gql`
       weight
       birthNumber
       birthDate
-      insurance {
-        companyName
-        companyCode
-        cardNumber
+      tcInsuranceCompany {
+        name
+        code
+        benefits {
+          name
+          description
+          subsidy
+          minIntervalDays
+          condition {
+            minAge
+            maxAge
+            sex
+          }
+        }
       }
     }
   }

@@ -15,7 +15,7 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "rads": "^0.3.9",
+    "rads": "^0.3.13",
     "rads-server": "^0.3.7"
   },
   "devDependencies": {
