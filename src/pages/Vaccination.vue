@@ -47,18 +47,26 @@
     </div>
     <QTable title="Očkování" :data="data" :columns="columns" row-key="name">
       <template #body="props">
-        <QTr :props="props">
+        <QTr :props="props" :class="{ 'no-apply': props.row.mandatory === true && props.row.date == null }">
           <QTd key="mandatory" :props="props">
-            <QIcon :color="props.row.mandatory === true ? 'primary' : 'grey'" name="fas fa-exclamation-triangle" />
+            <QIcon
+              size="sm"
+              :color="props.row.mandatory === true ? 'primary' : 'grey'"
+              name="fas fa-exclamation-triangle"
+            />
           </QTd>
           <QTd key="date" :props="props">
             {{ props.row.date }}
           </QTd>
           <QTd key="disease" :props="props">
-            {{ props.row.disease }}
+            <span>
+              {{ props.row.disease }}
+            </span>
           </QTd>
           <QTd key="vaccinationName" :props="props">
-            {{ props.row.vaccinationName }}
+            <span>
+              {{ props.row.vaccinationName }}
+            </span>
           </QTd>
           <QTd key="serialNumber" :props="props">
             {{ props.row.serialNumber }}
@@ -228,3 +236,20 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.no-apply {
+  background-size: 10px 10px;
+  background-image: repeating-linear-gradient(45deg, $negative 0, $negative 1px, transparent 0, transparent 50%);
+
+  & > td span {
+    background-color: $negative;
+    padding: ($space-x-base * 0.25);
+    color: #fff;
+  }
+
+  & > td .q-icon {
+    color: $negative !important;
+  }
+}
+</style>
