@@ -4,6 +4,7 @@
     <QInput value="" outlined label="Příjmení" class="q-mx-md q-mt-md" />
     <QSelect
       v-model="tcProfile.sex"
+      emit-value
       :display-value="sexOptios.find(item => item.value === tcProfile.sex).label || ''"
       outlined
       :options="sexOptios"
@@ -11,7 +12,15 @@
       class="q-mx-md q-mt-md"
     />
     <RDatetime v-model="tcProfile.birthDate" outlined label="Datum narození" class="q-mx-md q-mt-md" />
-    <QSelect outlined :value="null" :options="{}" label="Pojištovna" class="q-mx-md q-mt-md" />
+    <QSelect
+      v-model="tcProfile.tcInsuranceCompany.id"
+      emit-value
+      :display-value="insuranceCompanyOptios.find(item => item.value === tcProfile.tcInsuranceCompany.id).label || ''"
+      outlined
+      :options="insuranceCompanyOptios"
+      label="Pojištovna"
+      class="q-mx-md q-mt-md"
+    />
     <QInput v-model="tcProfile.email" outlined label="Email" class="q-mx-md q-mt-md" />
     <QInput value="" outlined type="password" label="Heslo" class="q-mx-md q-mt-md" />
     <QInput value="" outlined type="password" label="Opakovat heslo" class="q-mx-md q-mt-md" />
@@ -25,6 +34,8 @@
 </template>
 
 <script>
+import api from '@/services/api'
+
 export default {
   validations: {},
 
@@ -36,10 +47,37 @@ export default {
         { value: 'male', label: 'Muž' },
         { value: 'female', label: 'Žena' },
       ],
+      insuranceCompanyOptios: [],
     }
   },
 
+  created() {
+    this.init()
+  },
+
   safeMethods: {
+    async init() {
+      console.log('this')
+      const { tcInsuranceCompanies } = await api.query({
+        query: gql`
+          query {
+            tcInsuranceCompanies {
+              nodes {
+                id
+                name
+                code
+              }
+            }
+          }
+        `,
+      })
+
+      this.insuranceCompanyOptios = tcInsuranceCompanies.nodes.map(item => ({
+        value: item.id,
+        label: `${item.code} - ${item.name}`,
+      }))
+    },
+
     async save() {
       await this.$validate()
       await this.$store.dispatch('upsertTcProfile', this.tcProfile)

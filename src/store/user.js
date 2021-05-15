@@ -13,6 +13,7 @@ const profileQuery = gql`
       birthNumber
       birthDate
       tcInsuranceCompany {
+        id
         name
         code
         benefits {
