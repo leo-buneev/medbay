@@ -2,7 +2,7 @@
   <QLayout view="lHh Lpr lFf" class="main-layout">
     <QHeader elevated>
       <QToolbar>
-        <QBtn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" />
+        <!-- <QBtn flat dense round icon="menu" aria-label="Menu" @click="leftDrawerOpen = !leftDrawerOpen" /> -->
 
         <QToolbarTitle>
           MedBay
@@ -10,14 +10,14 @@
       </QToolbar>
     </QHeader>
 
-    <QDrawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-1">
+    <!-- <QDrawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-1">
       <QList>
         <QItemLabel header class="text-grey-8">
           Essential Links
         </QItemLabel>
-        <!-- <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" /> -->
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </QList>
-    </QDrawer>
+    </QDrawer> -->
 
     <QPageContainer>
       <QTabPanels v-model="tab" animated swipeable>
@@ -42,9 +42,9 @@
         align="center"
         shrink
       >
-        <QTab icon="fas fa-exclamation" name="advice">Doporučení</QTab>
-        <QTab icon="fas fa-syringe" name="vaccination">Očkování</QTab>
-        <QTab icon="fas fa-id-card" name="profile">Profil</QTab>
+        <QTab icon="fas fa-exclamation" name="advice" class="q-pa-sm">Doporučení</QTab>
+        <QTab icon="fas fa-syringe" name="vaccination" class="q-pa-sm">Očkování</QTab>
+        <QTab icon="fas fa-id-card" name="profile" class="q-pa-sm">Profil</QTab>
       </QTabs>
     </QFooter>
   </QLayout>
@@ -106,7 +106,7 @@ export default {
   data() {
     return {
       tab: 'advice',
-      leftDrawerOpen: false,
+      // leftDrawerOpen: false,
     }
   },
   created() {
