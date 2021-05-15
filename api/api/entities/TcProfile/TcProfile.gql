@@ -15,13 +15,7 @@ type TcProfile {
   "Rodne cislo"
   birthNumber: String
   "Information about insurance"
-  insurance: TcProfileInsurance! @default(value: "{}")
-}
-
-type TcProfileInsurance {
-  companyName: String
-  companyCode: Int
-  cardNumber: String
+  tcInsuranceCompany: TcInsuranceCompany! @relation
 }
 
 enum TcProfileSexEnum {
