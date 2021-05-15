@@ -1,11 +1,11 @@
 <template>
   <QPage class="flex flex-center">
-    Archiv
+    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" />
   </QPage>
 </template>
 
 <script>
 export default {
-  name: 'PageHistory',
+  name: 'PageIndex',
 }
 </script>

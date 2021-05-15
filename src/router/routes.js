@@ -21,10 +21,10 @@ const routes = [
   },
 
   {
-    path: '/history',
-    name: 'history',
+    path: '/vaccination',
+    name: 'vaccination',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/History.vue') }],
+    children: [{ path: '', component: () => import('pages/Vaccination.vue') }],
   },
 
   // Always leave this as last one,

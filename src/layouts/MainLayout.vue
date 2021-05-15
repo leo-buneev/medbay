@@ -36,8 +36,8 @@
         shrink
       >
         <QTab icon="fas fa-exclamation" @click="() => $router.push('advices')">Doporučení</QTab>
+        <QTab icon="fas fa-syringe" @click="() => $router.push('vaccination')">Očkování</QTab>
         <QTab icon="fas fa-id-card" @click="() => $router.push('profile')">Profil</QTab>
-        <QTab icon="fas fa-history" @click="() => $router.push('history')">Archiv</QTab>
       </QTabs>
     </QFooter>
   </QLayout>
