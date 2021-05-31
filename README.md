@@ -1,6 +1,8 @@
 # Medbay (medbay)
 
-Your one-stop shop for all medical needs
+Your one-stop shop for all medical needs.
+
+A fun little project done over weekend for Hack2Normal hackathon in Prague.
 
 ## Install the dependencies
 ```bash
